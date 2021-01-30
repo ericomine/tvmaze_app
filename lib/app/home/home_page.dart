@@ -32,26 +32,83 @@ class HomePage extends CubitPage<HomeCubit> {
               return previous.showList != current.showList;
             },
             builder: (context, state) {
-              return Stack(alignment: Alignment.topCenter, children: [
-                Padding(
+              if (state.isLoading) {
+                return Center(
+                  child: SizedBox(
+                    height: 200,
+                    width: 200,
+                    child: CircularProgressIndicator(
+                      backgroundColor: Colors.black87,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                          Theme.of(context).primaryColor),
+                      strokeWidth: 30,
+                    ),
+                  ),
+                );
+              }
+
+              return Stack(
+                alignment: Alignment.topCenter,
+                children: [
+                  Padding(
                     padding: const EdgeInsets.only(top: 20),
-                    child: ListView.builder(
-                        itemCount: state.showList?.length,
-                        itemBuilder: (context, index) {
-                          return RhomboidCard(
-                              tvShow: state.showList?.elementAt(index));
-                        })),
-                SearchBar(
-                  onChanged: (searchQuery) {
-                    context.read<HomeCubit>().updateList(searchQuery);
-                  },
-                ),
-              ]);
+                    child: _buildShowList(context, state),
+                  ),
+                  SearchBar(
+                    onChanged: (searchQuery) {
+                      context.read<HomeCubit>().updateList(searchQuery);
+                    },
+                  ),
+                ],
+              );
             },
           ),
         ),
       ),
     );
+  }
+
+  Widget _buildShowList(BuildContext context, HomeState state) {
+    final width = MediaQuery.of(context).size.width;
+
+    if (state.noResultFound) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            PhysicalModel(
+              color: Colors.black,
+              shape: BoxShape.circle,
+              elevation: 8,
+              child: Container(
+                height: 240,
+                width: 240,
+                decoration: const BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.red,
+                  image: DecorationImage(
+                    alignment: Alignment.bottomCenter,
+                    fit: BoxFit.cover,
+                    image: AssetImage("assets/tvstatic.gif"),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text("No result found",
+                  style: Theme.of(context).textTheme.headline6),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return ListView.builder(
+        itemCount: state.showList?.length,
+        itemBuilder: (context, index) {
+          return RhomboidCard(tvShow: state.showList?.elementAt(index));
+        });
   }
 }
 

@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tvmaze_app/app/common/string_x.dart';
 import 'package:tvmaze_app/data/api/tvmaze_api.dart';
 import 'package:tvmaze_app/domain/entities/tv_show.dart';
 

@@ -4,7 +4,7 @@ import 'package:tvmaze_app/domain/entities/tv_show.dart';
 part 'home_state.freezed.dart';
 
 @freezed
-abstract class HomeState with _$HomeState {
+abstract class HomeState implements _$HomeState {
   const factory HomeState({
     @required bool isLoading,
     @required List<TVShow> showList,
@@ -12,6 +12,7 @@ abstract class HomeState with _$HomeState {
     @required String searchQuery,
     @required @nullable String errorMessage,
   }) = _HomeState;
+  const HomeState._();
 
   factory HomeState.initial() => const HomeState(
         isLoading: false,
@@ -20,4 +21,6 @@ abstract class HomeState with _$HomeState {
         searchQuery: "",
         errorMessage: null,
       );
+
+  bool get noResultFound => searchQuery.isNotEmpty && showList.isEmpty;
 }

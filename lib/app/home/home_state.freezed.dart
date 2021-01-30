@@ -135,7 +135,7 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 }
 
 /// @nodoc
-class _$_HomeState implements _HomeState {
+class _$_HomeState extends _HomeState {
   const _$_HomeState(
       {@required this.isLoading,
       @required this.showList,
@@ -145,7 +145,8 @@ class _$_HomeState implements _HomeState {
       : assert(isLoading != null),
         assert(showList != null),
         assert(pageIndex != null),
-        assert(searchQuery != null);
+        assert(searchQuery != null),
+        super._();
 
   @override
   final bool isLoading;
@@ -200,7 +201,8 @@ class _$_HomeState implements _HomeState {
       __$HomeStateCopyWithImpl<_HomeState>(this, _$identity);
 }
 
-abstract class _HomeState implements HomeState {
+abstract class _HomeState extends HomeState {
+  const _HomeState._() : super._();
   const factory _HomeState(
       {@required bool isLoading,
       @required List<TVShow> showList,

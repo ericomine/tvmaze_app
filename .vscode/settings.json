@@ -9,6 +9,7 @@
         "**/*.gr.dart": true,
         "**/*.iconfig.dart": true,
         "**/*.config.dart": true,
+        "**/*.freezed.dart": true,
         "**/android/": true,
         "**/ios/": true,
         "**/build/": true

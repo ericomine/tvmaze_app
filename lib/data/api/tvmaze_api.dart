@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
 import 'package:tvmaze_app/domain/entities/episode.dart';
+import 'package:tvmaze_app/domain/entities/search_result.dart';
 import 'package:tvmaze_app/domain/entities/tv_show.dart';
 
 part 'tvmaze_api.g.dart';
@@ -12,8 +13,8 @@ abstract class TVMazeApi {
   @GET("/shows")
   Future<List<TVShow>> getShowList({@Query("page") int page});
 
-  @GET("/search/shows")
-  Future<List<TVShow>> searchShows({@Query("q") String query});
+  @GET('/search/shows')
+  Future<List<SearchResult>> searchShows({@Query("q") String query});
 
   @GET("/shows/{id}?embed=episodes")
   Future<TVShow> getShow({@Path("id") int id});

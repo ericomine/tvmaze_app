@@ -37,7 +37,7 @@ class _TVMazeApi implements TVMazeApi {
   }
 
   @override
-  Future<List<TVShow>> searchShows({query}) async {
+  Future<List<SearchResult>> searchShows({query}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'q': query};
     queryParameters.removeWhere((k, v) => v == null);
@@ -51,7 +51,7 @@ class _TVMazeApi implements TVMazeApi {
             baseUrl: baseUrl),
         data: _data);
     var value = _result.data
-        .map((dynamic i) => TVShow.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => SearchResult.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }

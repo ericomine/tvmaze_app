@@ -1,3 +1,5 @@
+import '../../app/common/string_x.dart';
+
 class Episode {
   final int id;
   final String url;
@@ -43,7 +45,7 @@ class Episode {
       runtime: json['runtime'] as int,
       imageMedium: json['image']['medium'] as String,
       imageOriginal: json['image']['original'] as String,
-      summary: json['summary'] as String,
+      summary: (json['summary'] as String)?.removeHtmlTags(),
     );
   }
 }

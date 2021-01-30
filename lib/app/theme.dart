@@ -13,7 +13,7 @@ ThemeData buildTheme() {
     primaryTextTheme: buildTextTheme(base.primaryTextTheme),
     accentTextTheme: buildTextTheme(base.accentTextTheme),
     inputDecorationTheme: const InputDecorationTheme(
-      border: UnderlineInputBorder(),
+      border: InputBorder.none,
     ),
     visualDensity: VisualDensity.adaptivePlatformDensity,
   );

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../domain/entities/tv_show.dart';
+import '../../../domain/entities/tv_show.dart';
 import 'clip_shadow_path.dart';
 import 'rhomboid_clipper.dart';
 

@@ -1,20 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:tvmaze_app/app/widgets/rhomboid_card.dart';
-import 'package:tvmaze_app/domain/entities/tv_show.dart';
+
+import '../../domain/entities/tv_show.dart';
+import '../widgets/rhomboid_card/rhomboid_card.dart';
+import '../widgets/search_bar/search_bar.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("HomePage")),
-      body: Padding(
-        padding: const EdgeInsets.all(20),
-        child: SingleChildScrollView(
-          child: Column(
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Stack(
+            alignment: Alignment.topCenter,
             children: [
-              RhomboidCard(tvShow: _tempTVShow),
-              RhomboidCard(tvShow: _tempTVShow),
-              RhomboidCard(tvShow: _tempTVShow),
+              Padding(
+                padding: const EdgeInsets.only(top: 20),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      RhomboidCard(tvShow: _tempTVShow),
+                      RhomboidCard(tvShow: _tempTVShow),
+                      RhomboidCard(tvShow: _tempTVShow),
+                    ],
+                  ),
+                ),
+              ),
+              SearchBar(),
             ],
           ),
         ),

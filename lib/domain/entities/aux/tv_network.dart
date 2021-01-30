@@ -8,12 +8,11 @@ class TVNetwork {
   TVNetwork({this.id, this.name, this.countryInfo});
 
   factory TVNetwork.fromJson(Map<String, dynamic> json) {
-    final result = TVNetwork(
+    return TVNetwork(
       id: json['id'] as int,
       name: json['name'] as String,
       countryInfo:
           CountryInfo.fromJson(json['country'] as Map<String, dynamic>),
     );
-    return result;
   }
 }

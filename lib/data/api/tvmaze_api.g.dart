@@ -17,10 +17,10 @@ class _TVMazeApi implements TVMazeApi {
   String baseUrl;
 
   @override
-  Future<List<TVShow>> getShowList(page) async {
-    ArgumentError.checkNotNull(page, 'page');
+  Future<List<TVShow>> getShowList({page}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};
+    queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.request<List<dynamic>>('/shows',
         queryParameters: queryParameters,
@@ -37,10 +37,10 @@ class _TVMazeApi implements TVMazeApi {
   }
 
   @override
-  Future<List<TVShow>> searchShows(query) async {
-    ArgumentError.checkNotNull(query, 'query');
+  Future<List<TVShow>> searchShows({query}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'q': query};
+    queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.request<List<dynamic>>('/search/shows',
         queryParameters: queryParameters,
@@ -57,10 +57,10 @@ class _TVMazeApi implements TVMazeApi {
   }
 
   @override
-  Future<TVShow> getShow(id) async {
-    ArgumentError.checkNotNull(id, 'id');
+  Future<TVShow> getShow({id}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
+    queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
     final _result = await _dio.request<Map<String, dynamic>>(
         '/shows/$id?embed=episodes',
@@ -72,6 +72,28 @@ class _TVMazeApi implements TVMazeApi {
             baseUrl: baseUrl),
         data: _data);
     final value = TVShow.fromJson(_result.data);
+    return value;
+  }
+
+  @override
+  Future<Episode> getEpisode({showId, season, number}) async {
+    const _extra = <String, dynamic>{};
+    final queryParameters = <String, dynamic>{
+      r'season': season,
+      r'number': number
+    };
+    queryParameters.removeWhere((k, v) => v == null);
+    final _data = <String, dynamic>{};
+    final _result = await _dio.request<Map<String, dynamic>>(
+        '/shows/$showId/episodebynumber',
+        queryParameters: queryParameters,
+        options: RequestOptions(
+            method: 'GET',
+            headers: <String, dynamic>{},
+            extra: _extra,
+            baseUrl: baseUrl),
+        data: _data);
+    final value = Episode.fromJson(_result.data);
     return value;
   }
 }

@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-import 'package:flutter/material.dart';
-
 import 'aux/schedule.dart';
 import 'aux/tv_network.dart';
 import 'episode.dart';

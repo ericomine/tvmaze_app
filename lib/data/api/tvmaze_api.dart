@@ -9,11 +9,11 @@ abstract class TVMazeApi {
   factory TVMazeApi(Dio dio, {String baseUrl}) = _TVMazeApi;
 
   @GET("/shows")
-  Future<List<TVShow>> getShowList(@Query("page") String page);
+  Future<List<TVShow>> getShowList(@Query("page") int page);
 
   @GET("/search/shows")
   Future<List<TVShow>> searchShows(@Query("q") String query);
 
   @GET("/shows/{id}?embed=episodes")
-  Future<TVShow> getShow(@Path("id") String id);
+  Future<TVShow> getShow(@Path("id") int id);
 }

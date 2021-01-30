@@ -26,7 +26,7 @@ GetIt $initGetIt(
   final loggerModule = _$LoggerModule();
   gh.lazySingleton<Dio>(() => apiModule.dio);
   gh.lazySingleton<Logger>(() => loggerModule.logger);
-  gh.lazySingleton<TVMazeApi>(() => apiModule.api);
+  gh.lazySingleton<TVMazeApi>(() => apiModule.tvMazeApi);
   return get;
 }
 

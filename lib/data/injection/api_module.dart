@@ -10,5 +10,5 @@ abstract class ApiModule {
   Dio get dio => Dio();
 
   @lazySingleton
-  TVMazeApi get api => TVMazeApi(getIt<Dio>());
+  TVMazeApi get tvMazeApi => TVMazeApi(getIt<Dio>());
 }

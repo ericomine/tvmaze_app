@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart' hide Headers;
 import 'package:retrofit/retrofit.dart';
-import 'package:tvmaze_app/domain/entities/tvshow.dart';
+import 'package:tvmaze_app/domain/entities/tv_show.dart';
 
 part 'tvmaze_api.g.dart';
 

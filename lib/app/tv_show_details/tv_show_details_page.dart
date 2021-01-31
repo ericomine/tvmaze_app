@@ -8,7 +8,6 @@ import '../widgets/big_progress_indicator.dart';
 import '../widgets/rhomboid_card/rhomboid_card.dart';
 import 'tv_show_details_cubit.dart';
 import 'tv_show_details_state.dart';
-import 'widgets/episode_list_view.dart';
 import 'widgets/schedule_view.dart';
 
 class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {

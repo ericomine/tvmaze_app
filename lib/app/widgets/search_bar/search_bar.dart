@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
@@ -14,13 +16,27 @@ class SearchBar extends StatefulWidget {
 
 class _SearchBarState extends State<SearchBar> {
   TextEditingController _controller;
+  Timer _debounce;
+
+  void _onSearchChanged() {
+    if (_debounce?.isActive ?? false) _debounce.cancel();
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      widget.onChanged(_controller.text);
+    });
+  }
 
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
+    _controller.addListener(_onSearchChanged);
+  }
 
-    // TODO: Improve widget by adding debounce to TextField behavior.
+  @override
+  void dispose() {
+    _controller.removeListener(_onSearchChanged);
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -38,7 +54,6 @@ class _SearchBarState extends State<SearchBar> {
             ),
             Expanded(
               child: TextField(
-                  onChanged: widget.onChanged,
                   controller: _controller,
                   decoration: const InputDecoration()
                       .applyDefaults(Theme.of(context).inputDecorationTheme)

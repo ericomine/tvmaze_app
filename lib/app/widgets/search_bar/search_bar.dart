@@ -19,6 +19,8 @@ class _SearchBarState extends State<SearchBar> {
   void initState() {
     super.initState();
     _controller = TextEditingController();
+
+    // TODO: Improve widget by adding debounce to TextField behavior.
   }
 
   @override

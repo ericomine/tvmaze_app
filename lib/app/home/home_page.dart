@@ -39,21 +39,6 @@ class HomePage extends CubitPage<HomeCubit> {
               return previous.showList != current.showList;
             },
             builder: (context, state) {
-              if (state.isLoading) {
-                return Center(
-                  child: SizedBox(
-                    height: 200,
-                    width: 200,
-                    child: CircularProgressIndicator(
-                      backgroundColor: Colors.black87,
-                      valueColor: AlwaysStoppedAnimation<Color>(
-                          Theme.of(context).primaryColor),
-                      strokeWidth: 30,
-                    ),
-                  ),
-                );
-              }
-
               return Stack(
                 alignment: Alignment.topCenter,
                 children: [
@@ -76,6 +61,21 @@ class HomePage extends CubitPage<HomeCubit> {
   }
 
   Widget _buildShowList(BuildContext context, HomeState state) {
+    if (state.isLoading) {
+      return Center(
+        child: SizedBox(
+          height: 200,
+          width: 200,
+          child: CircularProgressIndicator(
+            backgroundColor: Colors.black87,
+            valueColor:
+                AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
+            strokeWidth: 30,
+          ),
+        ),
+      );
+    }
+
     if (state.noResultFound) {
       return Center(
         child: Column(

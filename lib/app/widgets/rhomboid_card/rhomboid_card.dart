@@ -5,13 +5,19 @@ import 'clip_shadow_path.dart';
 import 'rhomboid_clipper.dart';
 
 class RhomboidCard extends StatelessWidget {
-  final TVShow tvShow;
+  final String imagePath;
+  final String title;
+  final String body;
+  final int bodyMaxLines;
   final double padding;
   final void Function() onTap;
 
   const RhomboidCard({
     Key key,
-    this.tvShow,
+    @required this.title,
+    this.body,
+    this.bodyMaxLines = 5,
+    this.imagePath,
     this.padding = 20.0,
     this.onTap,
   }) : super(key: key);
@@ -22,18 +28,22 @@ class RhomboidCard extends StatelessWidget {
     final height = width * 1.1;
 
     return ClipShadowPath(
-      shadow: const Shadow(blurRadius: 4.0, offset: Offset(0, 2)),
+      shadow: const Shadow(
+        blurRadius: 2.0,
+        color: Colors.grey,
+        offset: Offset(0, 4),
+      ),
       clipper: RhomboidClipper(),
       child: GestureDetector(
         onTap: onTap,
         child: Stack(
           children: [
-            if (tvShow.imageOriginal != null)
+            if (imagePath != null)
               SizedBox(
                 height: height,
                 width: width,
                 child: Image.network(
-                  tvShow.imageOriginal,
+                  imagePath,
                   fit: BoxFit.cover,
                 ),
               ),
@@ -57,7 +67,7 @@ class RhomboidCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(tvShow?.name ?? "-",
+                    Text(title ?? "",
                         style: Theme.of(context)
                             .textTheme
                             .headline3
@@ -67,12 +77,12 @@ class RhomboidCard extends StatelessWidget {
                     const SizedBox(height: 8.0),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 2.0),
-                      child: Text(tvShow?.summary ?? "N/A",
+                      child: Text(body ?? "N/A",
                           style: Theme.of(context)
                               .textTheme
                               .bodyText2
                               .copyWith(color: Colors.white, height: 1.4),
-                          maxLines: 5,
+                          maxLines: bodyMaxLines,
                           overflow: TextOverflow.ellipsis),
                     ),
                   ],

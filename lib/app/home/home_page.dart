@@ -79,7 +79,9 @@ class HomePage extends CubitPage<HomeCubit> {
         itemBuilder: (context, index) {
           final tvShow = state.showList?.elementAt(index);
           return RhomboidCard(
-            tvShow: tvShow,
+            title: tvShow?.name,
+            body: tvShow?.summary,
+            imagePath: tvShow?.imageOriginal ?? tvShow?.imageMedium,
             onTap: () => ExtendedNavigator.root.push(Routes.tvShowDetailsPage,
                 arguments: TvShowDetailsPageArguments(tvShowId: tvShow.id)),
           );

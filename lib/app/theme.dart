@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
 ThemeData buildTheme() {
-  final ThemeData base = ThemeData.dark();
+  final primaryColor = Colors.teal;
+  final ThemeData base = ThemeData.light();
+
   return base.copyWith(
-    primaryColor: Colors.teal,
+    primaryColor: primaryColor,
+    primaryColorBrightness: Brightness.light,
+    brightness: Brightness.light,
     scaffoldBackgroundColor: Colors.white,
     buttonTheme: base.buttonTheme.copyWith(
-      buttonColor: Colors.teal,
+      buttonColor: primaryColor,
       textTheme: ButtonTextTheme.primary,
-      colorScheme: const ColorScheme.light(),
+      colorScheme: ColorScheme.fromSwatch(primarySwatch: primaryColor),
     ),
     textTheme: buildTextTheme(base.textTheme),
     primaryTextTheme: buildTextTheme(base.primaryTextTheme),

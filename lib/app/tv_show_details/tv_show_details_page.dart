@@ -32,7 +32,7 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
             slivers: [
               SliverAppBar(
                 backgroundColor: Colors.white,
-                brightness: Brightness.dark,
+                brightness: Brightness.light,
                 expandedHeight: 600,
                 stretch: true,
                 flexibleSpace: FlexibleSpaceBar(

@@ -33,29 +33,18 @@ void main() {
     test('Should get TVShow.schedule from JSON deserialization', () async {
       final tvShow = await realApi.getShow(id: 1);
       expect(tvShow?.schedule?.time, equals("22:00"));
-      expect(tvShow?.schedule?.daysOfWeek, equals(["Thursday"]));
+      expect(tvShow?.schedule?.daysOfWeek, equals([DateTime.thursday]));
     });
   });
 
-  group('Get Episode from the API', () {
+  group('Get Episodes from the API', () {
     test(
-      'Should get Episode.season, number and summary from JSON deserialization',
+      'Should get a Episode.season, number and summary from JSON deserialization',
       () async {
-        final episode =
-            await realApi.getEpisode(showId: 1, season: 1, number: 1);
-        expect(episode?.season, equals(1));
-        expect(episode?.number, equals(1));
-        expect(episode?.summary?.isNotEmpty, isTrue);
-      },
-    );
-  });
-
-  group('Get TVShow with embedded episodes from the API', () {
-    test(
-      'Should get TVShow.episodes from JSON deserialization',
-      () async {
-        final tvshow = await realApi.getShow(id: 1);
-        expect(tvshow?.episodes?.isNotEmpty, isTrue);
+        final episodes = await realApi.getEpisodes(showId: 1);
+        expect(episodes.first.season, equals(1));
+        expect(episodes.first.number, equals(1));
+        expect(episodes.first.summary?.isNotEmpty, isTrue);
       },
     );
   });

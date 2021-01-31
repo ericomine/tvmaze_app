@@ -62,8 +62,7 @@ class _TVMazeApi implements TVMazeApi {
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/shows/$id?embed=episodes',
+    final _result = await _dio.request<Map<String, dynamic>>('/shows/$id',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -76,16 +75,12 @@ class _TVMazeApi implements TVMazeApi {
   }
 
   @override
-  Future<Episode> getEpisode({showId, season, number}) async {
+  Future<List<Episode>> getEpisodes({showId}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'season': season,
-      r'number': number
-    };
+    final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
     final _data = <String, dynamic>{};
-    final _result = await _dio.request<Map<String, dynamic>>(
-        '/shows/$showId/episodebynumber',
+    final _result = await _dio.request<List<dynamic>>('/shows/$showId/episodes',
         queryParameters: queryParameters,
         options: RequestOptions(
             method: 'GET',
@@ -93,7 +88,9 @@ class _TVMazeApi implements TVMazeApi {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = Episode.fromJson(_result.data);
+    var value = _result.data
+        .map((dynamic i) => Episode.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 }

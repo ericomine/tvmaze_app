@@ -1,11 +1,11 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tvmaze_app/app/router.gr.dart';
 import 'package:tvmaze_app/app/widgets/big_progress_indicator.dart';
 import 'package:tvmaze_app/app/widgets/tv_static_warning.dart';
 
 import '../common/cubit_page.dart';
+import '../router.gr.dart';
 import '../widgets/rhomboid_card/rhomboid_card.dart';
 import '../widgets/search_bar/search_bar.dart';
 import 'home_cubit.dart';
@@ -81,9 +81,10 @@ class HomePage extends CubitPage<HomeCubit> {
           return RhomboidCard(
             title: tvShow?.name,
             body: tvShow?.summary,
-            imagePath: tvShow?.imageOriginal ?? tvShow?.imageMedium,
+            imagePath: tvShow.imageOriginal ?? tvShow.imageMedium,
             onTap: () => ExtendedNavigator.root.push(Routes.tvShowDetailsPage,
-                arguments: TvShowDetailsPageArguments(tvShowId: tvShow.id)),
+                arguments: TvShowDetailsPageArguments(
+                    tvShowId: tvShow.id, tvShow: tvShow)),
           );
         });
   }

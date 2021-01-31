@@ -16,13 +16,9 @@ abstract class TVMazeApi {
   @GET('/search/shows')
   Future<List<SearchResult>> searchShows({@Query("q") String query});
 
-  @GET("/shows/{id}?embed=episodes")
+  @GET("/shows/{id}")
   Future<TVShow> getShow({@Path("id") int id});
 
-  @GET("/shows/{showId}/episodebynumber")
-  Future<Episode> getEpisode({
-    @Path("showId") int showId,
-    @Query("season") int season,
-    @Query("number") int number,
-  });
+  @GET("/shows/{showId}/episodes")
+  Future<List<Episode>> getEpisodes({@Path("showId") int showId});
 }

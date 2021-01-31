@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tvmaze_app/data/api/tvmaze_api.dart';
+import '../../data/api/tvmaze_api.dart';
+import '../../domain/entities/episode.dart';
+import '../../domain/entities/tv_show.dart';
 
 import 'tv_show_details_state.dart';
 
@@ -10,11 +12,33 @@ class TvShowDetailsCubit extends Cubit<TvShowDetailsState> {
 
   TvShowDetailsCubit(this.api) : super(TvShowDetailsState.initial());
 
-  Future<void> init(int showId) async {
-    emit(state.copyWith(isLoading: true));
+  Future<void> init({int tvShowId, TVShow tvShow}) async {
+    if (tvShow == null) {
+      emit(state.copyWith(isLoadingShow: true));
+      final newShow = await api.getShow(id: tvShowId);
+      emit(state.copyWith(isLoadingShow: false, tvShow: newShow));
+      return;
+    }
 
-    final tvShowWithEpisodes = await api.getShow(id: showId);
+    emit(state.copyWith(tvShow: tvShow));
+  }
 
-    emit(state.copyWith(isLoading: false, tvShow: tvShowWithEpisodes));
+  Future<void> loadEpisodes() async {
+    emit(state.copyWith(isLoadingEpisodes: true));
+    final episodes = await api.getEpisodes(showId: state.tvShow?.id);
+
+    final episodesPerSeason = <int, List<Episode>>{};
+    for (final ep in episodes) {
+      if (episodesPerSeason.containsKey(ep.season)) {
+        episodesPerSeason[ep.season].add(ep);
+      } else {
+        episodesPerSeason[ep.season] = [ep];
+      }
+    }
+
+    emit(state.copyWith(
+      isLoadingEpisodes: false,
+      episodesPerSeason: episodesPerSeason,
+    ));
   }
 }

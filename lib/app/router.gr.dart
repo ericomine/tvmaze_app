@@ -9,6 +9,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
+import '../domain/entities/tv_show.dart';
 import 'home/home_page.dart';
 import 'tv_show_details/tv_show_details_page.dart';
 
@@ -40,7 +41,10 @@ class Router extends RouterBase {
     TvShowDetailsPage: (data) {
       final args = data.getArgs<TvShowDetailsPageArguments>(nullOk: false);
       return MaterialPageRoute<dynamic>(
-        builder: (context) => TvShowDetailsPage(args.tvShowId),
+        builder: (context) => TvShowDetailsPage(
+          args.tvShowId,
+          args.tvShow,
+        ),
         settings: data,
       );
     },
@@ -54,5 +58,6 @@ class Router extends RouterBase {
 /// TvShowDetailsPage arguments holder class
 class TvShowDetailsPageArguments {
   final int tvShowId;
-  TvShowDetailsPageArguments({@required this.tvShowId});
+  final TVShow tvShow;
+  TvShowDetailsPageArguments({@required this.tvShowId, @required this.tvShow});
 }

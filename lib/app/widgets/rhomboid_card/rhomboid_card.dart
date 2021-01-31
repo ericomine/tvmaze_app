@@ -21,7 +21,7 @@ class RhomboidCard extends StatelessWidget {
     this.bodyMaxLines = 5,
     this.imagePath,
     this.filterImage = true,
-    this.topSpace = 120,
+    this.topSpace = 0,
     this.padding = 20,
     this.customContent,
     this.onTap,

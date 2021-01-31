@@ -9,6 +9,7 @@ class TVShow {
   final String name;
   final List<String> genres;
   final String status;
+  final String premiered;
   final String officialSite;
   final Schedule schedule;
   final TVNetwork network;
@@ -23,6 +24,7 @@ class TVShow {
       this.name,
       this.genres,
       this.status,
+      this.premiered,
       this.officialSite,
       this.schedule,
       this.network,
@@ -57,6 +59,7 @@ class TVShow {
       name: json['name'] as String,
       genres: List<String>.from((json['genres'] as List) ?? []),
       status: json['status'] as String,
+      premiered: json['premiered'] as String,
       officialSite: json['officialSite'] as String,
       schedule: Schedule.fromJson(json['schedule'] as Map<String, dynamic>),
       network: TVNetwork.fromJson(json['network'] as Map<String, dynamic>),

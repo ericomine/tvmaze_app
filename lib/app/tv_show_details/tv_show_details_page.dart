@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../domain/entities/tv_show.dart';
 
 import '../common/cubit_page.dart';
 import '../widgets/big_progress_indicator.dart';
@@ -53,31 +54,47 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
             ),
             RhomboidCard(
               title: "Summary",
-              body: _addGenresToSummary(
-                  state.tvShow?.summary, state.tvShow?.genres),
+              body: andExtrasToSummary(state.tvShow?.summary, state.tvShow),
               bodyMaxLines: 20,
               topSpace: 0,
             ),
-            RhomboidCard(
-              title: "Schedule",
+            _buildScheduleCard(state.tvShow),
+            const RhomboidCard(
+              title: "Episodes",
               topSpace: 0,
-              body: 'Watch on: ${state.tvShow?.network?.name} '
-                  '\nTimezone: ${state.tvShow?.network?.countryInfo?.timezone}',
-              customContent: Column(
-                children: [
-                  const SizedBox(height: 15.0),
-                  ScheduleView(schedule: state.tvShow?.schedule),
-                ],
-              ),
-            ),
+            )
           ],
         ),
       ),
     );
   }
 
-  String _addGenresToSummary(String summary, List<String> genres) {
+  String andExtrasToSummary(String summary, TVShow tvShow) {
     return '$summary '
-        '\n\nGenres: ${genres.join(", ")} ';
+        '\n\nGenres: ${tvShow.genres.join(", ")} '
+        '\n\nYear: ${tvShow.premiered.substring(0, 4)} ';
+  }
+
+  Widget _buildScheduleCard(TVShow tvShow) {
+    if (tvShow?.status == 'Ended') {
+      return const RhomboidCard(
+        title: "Schedule",
+        topSpace: 0,
+        body: 'This show is not currently being broadcasted.',
+      );
+    }
+
+    return RhomboidCard(
+      title: "Schedule",
+      topSpace: 0,
+      body: 'Watch on: ${tvShow?.network?.name} '
+          '\nTimezone: ${tvShow?.network?.countryInfo?.timezone}',
+      customContent: Column(
+        children: [
+          const SizedBox(height: 15.0),
+          ScheduleView(schedule: tvShow?.schedule),
+        ],
+      ),
+    );
   }
 }

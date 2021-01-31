@@ -10,7 +10,7 @@
         "**/*.iconfig.dart": true,
         "**/*.config.dart": true,
         "**/*.freezed.dart": true,
-        "**/android/": true,
+        "**/android/": false,
         "**/ios/": true,
         "**/build/": true
     }

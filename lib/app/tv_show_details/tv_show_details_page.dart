@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tvmaze_app/app/tv_show_details/widgets/season_explorer.dart';
 
 import '../../domain/entities/tv_show.dart';
 import '../common/cubit_page.dart';
@@ -20,14 +21,7 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
   void onInit(BuildContext context, TvShowDetailsCubit cubit) {
     super.onInit(context, cubit);
     cubit.init(tvShowId: tvShowId, tvShow: tvShow);
-
-    final scrollController = cubit.state.scrollController;
-    cubit.state.scrollController.addListener(() {
-      if (scrollController.position.pixels ==
-          scrollController.position.maxScrollExtent) {
-        cubit.loadEpisodes();
-      }
-    });
+    cubit.loadEpisodes();
   }
 
   @override
@@ -71,7 +65,10 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
               bodyMaxLines: 20,
             ),
             _buildScheduleCard(state.tvShow),
-            _buildEpisodesList(context, state),
+            RhomboidCard(
+              title: "Episodes",
+              customContent: _buildEpisodesList(context, state),
+            ),
           ],
         ),
       ),
@@ -114,7 +111,6 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
       return const Text("No episodes to show");
     }
 
-    return EpisodeListView(
-        season: 1, episodes: state.episodesPerSeason.values.first);
+    return SeasonExplorer(episodesPerSeason: state.episodesPerSeason);
   }
 }

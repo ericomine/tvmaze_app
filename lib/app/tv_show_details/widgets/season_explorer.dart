@@ -16,15 +16,23 @@ class _SeasonExplorerState extends State<SeasonExplorer> {
 
   @override
   Widget build(BuildContext context) {
-    final seasons = widget.episodesPerSeason.keys;
+    final seasons = widget.episodesPerSeason.keys.toList();
 
-    return PageView.builder(
-      controller: pageController,
-      itemCount: seasons.length,
-      itemBuilder: (context, index) => EpisodeListView(
-        season: index + 1,
-        episodes: widget.episodesPerSeason[index + 1],
-      ),
+    return Column(
+      children: [
+        ...seasons
+            .map((s) => ExpansionTile(
+                  title: Text('Season $s',
+                      style: Theme.of(context).textTheme.headline5),
+                  children: [
+                    EpisodeListView(
+                      season: s,
+                      episodes: widget.episodesPerSeason[s],
+                    )
+                  ],
+                ))
+            .toList(),
+      ],
     );
   }
 }

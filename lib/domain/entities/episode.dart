@@ -32,6 +32,16 @@ class Episode {
   });
 
   factory Episode.fromJson(Map<String, dynamic> json) {
+    final hasMediumImage =
+        (json['image'] as Map)?.containsKey('medium') ?? false;
+    final hasOriginalImage =
+        (json['image'] as Map)?.containsKey('original') ?? false;
+
+    final imageMedium =
+        hasMediumImage ? json['image']['medium'] as String : null;
+    final imageOriginal =
+        hasOriginalImage ? json['image']['original'] as String : null;
+
     return Episode(
       id: json['id'] as int,
       url: json['url'] as String,
@@ -43,8 +53,8 @@ class Episode {
       airtime: json['airtime'] as String,
       airstamp: json['airstamp'] as String,
       runtime: json['runtime'] as int,
-      imageMedium: json['image']['medium'] as String,
-      imageOriginal: json['image']['original'] as String,
+      imageMedium: imageMedium,
+      imageOriginal: imageOriginal,
       summary: (json['summary'] as String)?.removeHtmlTags(),
     );
   }

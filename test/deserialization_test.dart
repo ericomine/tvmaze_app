@@ -33,7 +33,7 @@ void main() {
     test('Should get TVShow.schedule from JSON deserialization', () async {
       final tvShow = await realApi.getShow(id: 1);
       expect(tvShow?.schedule?.time, equals("22:00"));
-      expect(tvShow?.schedule?.days, equals(["Thursday"]));
+      expect(tvShow?.schedule?.daysOfWeek, equals(["Thursday"]));
     });
   });
 

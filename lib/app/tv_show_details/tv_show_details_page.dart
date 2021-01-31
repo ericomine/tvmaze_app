@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/tv_show.dart';
 
+import '../../domain/entities/episode.dart';
+import '../../domain/entities/tv_show.dart';
 import '../common/cubit_page.dart';
 import '../widgets/big_progress_indicator.dart';
 import '../widgets/rhomboid_card/rhomboid_card.dart';
@@ -43,7 +44,7 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
     }
 
     return Padding(
-      padding: const EdgeInsets.all(20.0),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: SingleChildScrollView(
         child: Column(
           children: [
@@ -59,10 +60,7 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
               topSpace: 0,
             ),
             _buildScheduleCard(state.tvShow),
-            const RhomboidCard(
-              title: "Episodes",
-              topSpace: 0,
-            )
+            _buildEpisodesCard(context, state.tvShow),
           ],
         ),
       ),
@@ -72,7 +70,7 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
   String andExtrasToSummary(String summary, TVShow tvShow) {
     return '$summary '
         '\n\nGenres: ${tvShow.genres.join(", ")} '
-        '\n\nYear: ${tvShow.premiered.substring(0, 4)} ';
+        '\nYear: ${tvShow.premiered.substring(0, 4)} ';
   }
 
   Widget _buildScheduleCard(TVShow tvShow) {
@@ -95,6 +93,52 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
           ScheduleView(schedule: tvShow?.schedule),
         ],
       ),
+    );
+  }
+
+  Widget _buildEpisodesCard(BuildContext context, TVShow tvShow) {
+    final episodes = tvShow.episodes ?? <Episode>[];
+    final episodeViewList = <Widget>[];
+
+    int season = 0;
+    for (int index = 0; index < episodes.length; index++) {
+      final currentEpisode = episodes?.elementAt(index);
+      if (season != currentEpisode.season) {
+        season = currentEpisode.season;
+        episodeViewList.add(Row(
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(top: 15.0),
+              child: Text("Season $season",
+                  style: Theme.of(context).textTheme.headline5),
+            ),
+          ],
+        ));
+      }
+      episodeViewList.add(_buildEpisodeView(context, currentEpisode));
+    }
+    return RhomboidCard(
+      title: "Episodes",
+      topSpace: 0,
+      customContent: Column(
+        children: [...episodeViewList],
+      ),
+    );
+  }
+
+  Widget _buildEpisodeView(BuildContext context, Episode episode) {
+    return ExpansionTile(
+      title: Text(
+        "S${episode.season}E${episode.number} - ${episode.name}",
+        style: Theme.of(context).textTheme.headline6,
+      ),
+      childrenPadding: const EdgeInsets.fromLTRB(0, 0, 0, 15),
+      children: [
+        Image.network(episode.imageOriginal),
+        const SizedBox(height: 15),
+        Row(children: [Text("Aired on: ${episode.airdate}")]),
+        Text("Summary: ${episode.summary}"),
+      ],
     );
   }
 }

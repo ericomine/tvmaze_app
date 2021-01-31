@@ -13,6 +13,7 @@ import 'data/injection/api_module.dart';
 import 'app/home/home_cubit.dart';
 import 'app/injection/logger_module.dart';
 import 'data/api/tvmaze_api.dart';
+import 'app/tv_show_details/tv_show_details_cubit.dart';
 
 /// adds generated dependencies
 /// to the provided [GetIt] instance
@@ -28,6 +29,7 @@ GetIt $initGetIt(
   gh.lazySingleton<Dio>(() => apiModule.dio);
   gh.lazySingleton<Logger>(() => loggerModule.logger);
   gh.lazySingleton<TVMazeApi>(() => apiModule.tvMazeApi);
+  gh.factory<TvShowDetailsCubit>(() => TvShowDetailsCubit(get<TVMazeApi>()));
   gh.factory<HomeCubit>(() => HomeCubit(get<TVMazeApi>()));
   return get;
 }

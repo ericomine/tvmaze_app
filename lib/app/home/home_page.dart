@@ -1,5 +1,9 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tvmaze_app/app/router.gr.dart';
+import 'package:tvmaze_app/app/widgets/big_progress_indicator.dart';
+import 'package:tvmaze_app/app/widgets/tv_static_warning.dart';
 
 import '../common/cubit_page.dart';
 import '../widgets/rhomboid_card/rhomboid_card.dart';
@@ -62,58 +66,23 @@ class HomePage extends CubitPage<HomeCubit> {
 
   Widget _buildShowList(BuildContext context, HomeState state) {
     if (state.isLoading) {
-      return Center(
-        child: SizedBox(
-          height: 200,
-          width: 200,
-          child: CircularProgressIndicator(
-            backgroundColor: Colors.black87,
-            valueColor:
-                AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-            strokeWidth: 30,
-          ),
-        ),
-      );
+      return BigProgressIndicator();
     }
 
     if (state.noResultFound) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            PhysicalModel(
-              color: Colors.black,
-              shape: BoxShape.circle,
-              elevation: 8,
-              child: Container(
-                height: 240,
-                width: 240,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: Colors.red,
-                  image: DecorationImage(
-                    alignment: Alignment.bottomCenter,
-                    fit: BoxFit.cover,
-                    image: AssetImage("assets/tvstatic.gif"),
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(20.0),
-              child: Text("No result found",
-                  style: Theme.of(context).textTheme.headline6),
-            ),
-          ],
-        ),
-      );
+      return TvStaticWarning();
     }
 
     return ListView.builder(
         controller: state.scrollController,
         itemCount: state.showList?.length,
         itemBuilder: (context, index) {
-          return RhomboidCard(tvShow: state.showList?.elementAt(index));
+          final tvShow = state.showList?.elementAt(index);
+          return RhomboidCard(
+            tvShow: tvShow,
+            onTap: () => ExtendedNavigator.root.push(Routes.tvShowDetailsPage,
+                arguments: TvShowDetailsPageArguments(tvShowId: tvShow.id)),
+          );
         });
   }
 }

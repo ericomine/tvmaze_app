@@ -7,7 +7,7 @@ import 'rhomboid_clipper.dart';
 class RhomboidCard extends StatelessWidget {
   final TVShow tvShow;
   final double padding;
-  final void Function(TVShow tvShow) onTap;
+  final void Function() onTap;
 
   const RhomboidCard({
     Key key,
@@ -25,7 +25,7 @@ class RhomboidCard extends StatelessWidget {
       shadow: const Shadow(blurRadius: 4.0, offset: Offset(0, 2)),
       clipper: RhomboidClipper(),
       child: GestureDetector(
-        onTap: () {}, // TODO: Route to ShowDetailsPage
+        onTap: onTap,
         child: Stack(
           children: [
             if (tvShow.imageOriginal != null)

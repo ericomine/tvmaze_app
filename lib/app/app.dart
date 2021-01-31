@@ -1,16 +1,16 @@
-import 'package:flutter/material.dart';
+import 'package:auto_route/auto_route.dart';
+import 'package:flutter/material.dart' hide Router;
+import 'package:tvmaze_app/app/router.gr.dart';
 import 'package:tvmaze_app/app/theme.dart';
-
-import 'home/home_page.dart';
 
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'TVMaze',
-      theme: buildTheme(),
-      home: HomePage(),
-    );
+        debugShowCheckedModeBanner: false,
+        theme: buildTheme(),
+        builder: ExtendedNavigator<Router>(
+          router: Router(),
+        ));
   }
 }

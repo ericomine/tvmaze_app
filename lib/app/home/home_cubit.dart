@@ -13,7 +13,7 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> init() async {
     emit(state.copyWith(isLoading: true));
-    final showList = await api.getShowList(page: 0);
+    final showList = await api.getShowList(page: state.pageIndex);
     emit(state.copyWith(
       isLoading: false,
       pageIndex: state.pageIndex + 1,
@@ -21,25 +21,56 @@ class HomeCubit extends Cubit<HomeState> {
     ));
   }
 
-  Future<void> updateList(String searchQuery) async {
-    final previousQuery = state.searchQuery;
-    final queryChanged = previousQuery != searchQuery;
-    if (queryChanged) {
-      emit(state.copyWith(pageIndex: 0));
+  Future<void> onQueryChanged(String searchQuery) async {
+    if (searchQuery == state.searchQuery) {
+      return;
     }
 
-    emit(state.copyWith(isLoading: true, searchQuery: searchQuery));
+    emit(state.copyWith(
+      isLoading: true,
+      pageIndex: 0,
+      searchQuery: searchQuery,
+      showList: [],
+    ));
+
+    final showList = await getShowList();
+
+    emit(state.copyWith(
+      isLoading: false,
+      pageIndex: state.pageIndex + 1,
+      showList: showList,
+    ));
+  }
+
+  Future<void> onEndOfScroll() async {
+    if (state.searchQuery.isNotEmpty) {
+      // The search endpoint has no pagination.
+      // No behavior is expected when end of scroll reached.
+      return;
+    }
+
+    emit(state.copyWith(isLoading: true));
+
+    final newShowList = await getShowList();
+
+    emit(state.copyWith(
+      isLoading: false,
+      pageIndex: state.pageIndex + 1,
+      showList: [...state.showList, ...newShowList],
+    ));
+  }
+
+  Future<List<TVShow>> getShowList() async {
     List<TVShow> showList;
-    if (searchQuery.isEmpty) {
+    if (state.searchQuery.isEmpty) {
       showList = await api.getShowList(page: state.pageIndex);
     } else {
       final searchResult = await api.searchShows(query: state.searchQuery);
       showList = searchResult.map((result) => result?.tvShow).toList();
     }
 
-    // if (result is Error) {}
+    // TODO: if (result is Error) {}
 
-    emit(state.copyWith(
-        isLoading: false, pageIndex: state.pageIndex + 1, showList: showList));
+    return showList;
   }
 }

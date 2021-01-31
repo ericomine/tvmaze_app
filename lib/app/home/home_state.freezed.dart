@@ -15,12 +15,14 @@ class _$HomeStateTearOff {
 
 // ignore: unused_element
   _HomeState call(
-      {@required bool isLoading,
+      {@required ScrollController scrollController,
+      @required bool isLoading,
       @required List<TVShow> showList,
       @required int pageIndex,
       @required String searchQuery,
       @required @nullable String errorMessage}) {
     return _HomeState(
+      scrollController: scrollController,
       isLoading: isLoading,
       showList: showList,
       pageIndex: pageIndex,
@@ -36,6 +38,7 @@ const $HomeState = _$HomeStateTearOff();
 
 /// @nodoc
 mixin _$HomeState {
+  ScrollController get scrollController;
   bool get isLoading;
   List<TVShow> get showList;
   int get pageIndex;
@@ -52,7 +55,8 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res>;
   $Res call(
-      {bool isLoading,
+      {ScrollController scrollController,
+      bool isLoading,
       List<TVShow> showList,
       int pageIndex,
       String searchQuery,
@@ -69,6 +73,7 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
 
   @override
   $Res call({
+    Object scrollController = freezed,
     Object isLoading = freezed,
     Object showList = freezed,
     Object pageIndex = freezed,
@@ -76,6 +81,9 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
     Object errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
+      scrollController: scrollController == freezed
+          ? _value.scrollController
+          : scrollController as ScrollController,
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
       showList:
           showList == freezed ? _value.showList : showList as List<TVShow>,
@@ -96,7 +104,8 @@ abstract class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
       __$HomeStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {bool isLoading,
+      {ScrollController scrollController,
+      bool isLoading,
       List<TVShow> showList,
       int pageIndex,
       String searchQuery,
@@ -114,6 +123,7 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 
   @override
   $Res call({
+    Object scrollController = freezed,
     Object isLoading = freezed,
     Object showList = freezed,
     Object pageIndex = freezed,
@@ -121,6 +131,9 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
     Object errorMessage = freezed,
   }) {
     return _then(_HomeState(
+      scrollController: scrollController == freezed
+          ? _value.scrollController
+          : scrollController as ScrollController,
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
       showList:
           showList == freezed ? _value.showList : showList as List<TVShow>,
@@ -137,17 +150,21 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
 /// @nodoc
 class _$_HomeState extends _HomeState {
   const _$_HomeState(
-      {@required this.isLoading,
+      {@required this.scrollController,
+      @required this.isLoading,
       @required this.showList,
       @required this.pageIndex,
       @required this.searchQuery,
       @required @nullable this.errorMessage})
-      : assert(isLoading != null),
+      : assert(scrollController != null),
+        assert(isLoading != null),
         assert(showList != null),
         assert(pageIndex != null),
         assert(searchQuery != null),
         super._();
 
+  @override
+  final ScrollController scrollController;
   @override
   final bool isLoading;
   @override
@@ -162,13 +179,16 @@ class _$_HomeState extends _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(isLoading: $isLoading, showList: $showList, pageIndex: $pageIndex, searchQuery: $searchQuery, errorMessage: $errorMessage)';
+    return 'HomeState(scrollController: $scrollController, isLoading: $isLoading, showList: $showList, pageIndex: $pageIndex, searchQuery: $searchQuery, errorMessage: $errorMessage)';
   }
 
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other is _HomeState &&
+            (identical(other.scrollController, scrollController) ||
+                const DeepCollectionEquality()
+                    .equals(other.scrollController, scrollController)) &&
             (identical(other.isLoading, isLoading) ||
                 const DeepCollectionEquality()
                     .equals(other.isLoading, isLoading)) &&
@@ -189,6 +209,7 @@ class _$_HomeState extends _HomeState {
   @override
   int get hashCode =>
       runtimeType.hashCode ^
+      const DeepCollectionEquality().hash(scrollController) ^
       const DeepCollectionEquality().hash(isLoading) ^
       const DeepCollectionEquality().hash(showList) ^
       const DeepCollectionEquality().hash(pageIndex) ^
@@ -204,12 +225,15 @@ class _$_HomeState extends _HomeState {
 abstract class _HomeState extends HomeState {
   const _HomeState._() : super._();
   const factory _HomeState(
-      {@required bool isLoading,
+      {@required ScrollController scrollController,
+      @required bool isLoading,
       @required List<TVShow> showList,
       @required int pageIndex,
       @required String searchQuery,
       @required @nullable String errorMessage}) = _$_HomeState;
 
+  @override
+  ScrollController get scrollController;
   @override
   bool get isLoading;
   @override

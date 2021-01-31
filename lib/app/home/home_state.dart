@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:tvmaze_app/domain/entities/tv_show.dart';
 
@@ -6,6 +7,7 @@ part 'home_state.freezed.dart';
 @freezed
 abstract class HomeState implements _$HomeState {
   const factory HomeState({
+    @required ScrollController scrollController,
     @required bool isLoading,
     @required List<TVShow> showList,
     @required int pageIndex,
@@ -14,7 +16,8 @@ abstract class HomeState implements _$HomeState {
   }) = _HomeState;
   const HomeState._();
 
-  factory HomeState.initial() => const HomeState(
+  factory HomeState.initial() => HomeState(
+        scrollController: ScrollController(),
         isLoading: false,
         showList: [],
         pageIndex: 0,

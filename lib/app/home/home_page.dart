@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../domain/entities/tv_show.dart';
 import '../common/cubit_page.dart';
 import '../widgets/rhomboid_card/rhomboid_card.dart';
 import '../widgets/search_bar/search_bar.dart';
@@ -13,6 +12,14 @@ class HomePage extends CubitPage<HomeCubit> {
   void onInit(BuildContext context, HomeCubit cubit) {
     super.onInit(context, cubit);
     cubit.init();
+
+    final scrollController = cubit.state.scrollController;
+    cubit.state.scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        cubit.onEndOfScroll();
+      }
+    });
   }
 
   @override
@@ -56,7 +63,7 @@ class HomePage extends CubitPage<HomeCubit> {
                   ),
                   SearchBar(
                     onChanged: (searchQuery) {
-                      context.read<HomeCubit>().updateList(searchQuery);
+                      context.read<HomeCubit>().onQueryChanged(searchQuery);
                     },
                   ),
                 ],
@@ -103,6 +110,7 @@ class HomePage extends CubitPage<HomeCubit> {
     }
 
     return ListView.builder(
+        controller: state.scrollController,
         itemCount: state.showList?.length,
         itemBuilder: (context, index) {
           return RhomboidCard(tvShow: state.showList?.elementAt(index));

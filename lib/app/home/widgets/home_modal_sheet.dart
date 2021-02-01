@@ -6,6 +6,16 @@ import '../home_cubit.dart';
 import '../home_state.dart';
 
 class HomeModalSheet extends CubitPage<HomeCubit> {
+  final void Function() onTapFav;
+  final void Function() onTapResetPin;
+  final void Function() onTapResetFingerprint;
+
+  HomeModalSheet({
+    this.onTapFav,
+    this.onTapResetPin,
+    this.onTapResetFingerprint,
+  });
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
@@ -14,23 +24,26 @@ class HomeModalSheet extends CubitPage<HomeCubit> {
           padding: const EdgeInsets.all(20.0),
           child: Column(
             mainAxisSize: MainAxisSize.min,
-            children: const [
+            children: [
               ListTile(
-                leading: Icon(Icons.favorite),
-                title: Text("My favorite shows"),
-                trailing: Icon(Icons.chevron_right),
+                leading: const Icon(Icons.favorite),
+                title: const Text("My favorite shows"),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: onTapFav,
               ),
               ListTile(
                 enabled: false,
-                leading: Icon(Icons.fiber_pin),
-                title: Text("Reset my pin"),
-                trailing: Icon(Icons.chevron_right),
+                leading: const Icon(Icons.fiber_pin),
+                title: const Text("Reset my pin"),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: onTapResetPin,
               ),
               ListTile(
                 enabled: false,
-                leading: Icon(Icons.fingerprint),
-                title: Text("Reset my fingerprint"),
-                trailing: Icon(Icons.chevron_right),
+                leading: const Icon(Icons.fingerprint),
+                title: const Text("Reset my fingerprint"),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: onTapResetFingerprint,
               ),
             ],
           ),

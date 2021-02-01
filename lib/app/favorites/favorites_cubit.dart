@@ -23,7 +23,7 @@ class FavoritesCubit extends Cubit<FavoritesState> {
       final tvShow = await api.getShow(id: id);
       result.add(tvShow);
     }
-
+    result.sort((a, b) => a.name.compareTo(b.name));
     emit(state.copyWith(isLoading: false, favorites: result));
   }
 

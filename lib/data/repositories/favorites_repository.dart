@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:logger/logger.dart';
 import 'package:tvmaze_app/app/common/result.dart';
 import 'package:tvmaze_app/data/api/tvmaze_api.dart';
 import 'package:tvmaze_app/data/repositories/favorites_data_source.dart';
@@ -16,8 +17,9 @@ abstract class FavoritesRepository {
 class FavoritesRepositoryImpl implements FavoritesRepository {
   final FavoritesDataSource dataSource;
   final TvMazeApi api;
+  final Logger logger;
 
-  FavoritesRepositoryImpl(this.dataSource, this.api);
+  FavoritesRepositoryImpl(this.dataSource, this.api, this.logger);
 
   @override
   Result<void> addFavorite(TvShow tvShow) {
@@ -25,6 +27,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
       dataSource.addFavorite(tvShow.id);
       return const Result.success();
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred adding favorite.");
     }
   }
@@ -35,6 +38,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
       final result = dataSource.isFavorite(tvShow.id);
       return Result.success(value: result);
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred checking if show is favorite.");
     }
   }
@@ -45,6 +49,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
       final saved = dataSource.getFavorites();
       return Result.success(value: saved);
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred getting favorites.");
     }
   }
@@ -63,6 +68,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
       result.sort((a, b) => a.name.compareTo(b.name));
       return Result.success(value: result);
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred getting favorites.");
     }
   }
@@ -73,6 +79,7 @@ class FavoritesRepositoryImpl implements FavoritesRepository {
       dataSource.removeFavorite(tvShow.id);
       return const Result.success();
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred adding favorite.");
     }
   }

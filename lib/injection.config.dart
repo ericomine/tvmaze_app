@@ -46,14 +46,19 @@ Future<GetIt> $initGetIt(
       await sharedPreferencesModule.sharedPreferences;
   gh.lazySingleton<SharedPreferences>(() => resolvedSharedPreferences);
   gh.lazySingleton<TvMazeApi>(() => apiModule.tvMazeApi);
+  gh.lazySingleton<TvShowsRepository>(
+      () => TvShowsRepositoryImpl(get<TvMazeApi>(), get<Logger>()));
   gh.factory<FavoritesDataSource>(
       () => FavoritesDataSource(get<SharedPreferences>()));
-  gh.lazySingleton<FavoritesRepository>(() =>
-      FavoritesRepositoryImpl(get<FavoritesDataSource>(), get<TvMazeApi>()));
+  gh.lazySingleton<FavoritesRepository>(() => FavoritesRepositoryImpl(
+        get<FavoritesDataSource>(),
+        get<TvMazeApi>(),
+        get<Logger>(),
+      ));
   gh.factory<SettingsDataSource>(
       () => SettingsDataSource(get<SharedPreferences>()));
   gh.lazySingleton<SettingsRepository>(
-      () => SettingsRepositoryImpl(get<SettingsDataSource>()));
+      () => SettingsRepositoryImpl(get<SettingsDataSource>(), get<Logger>()));
   gh.factory<TvShowDetailsCubit>(() =>
       TvShowDetailsCubit(get<TvShowsRepository>(), get<FavoritesRepository>()));
   gh.factory<AuthCubit>(

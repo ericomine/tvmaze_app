@@ -3,8 +3,6 @@ import 'package:injectable/injectable.dart';
 import 'package:tvmaze_app/data/repositories/settings_repository.dart';
 import 'package:tvmaze_app/data/repositories/tv_shows_repository.dart';
 
-import '../../data/api/tvmaze_api.dart';
-import '../../data/repositories/settings_data_source.dart';
 import '../../domain/entities/tv_show.dart';
 import 'home_state.dart';
 

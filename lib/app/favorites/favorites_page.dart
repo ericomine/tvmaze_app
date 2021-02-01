@@ -32,6 +32,10 @@ class FavoritesPage extends CubitPage<FavoritesCubit> {
                 return const TvStaticWarning(message: "No favorite shows");
               }
 
+              if (state.errorMessage != null) {
+                return TvStaticWarning(message: state.errorMessage);
+              }
+
               return ListView.builder(
                 itemCount: state.favorites.length,
                 itemBuilder: (context, index) {
@@ -50,7 +54,7 @@ class FavoritesPage extends CubitPage<FavoritesCubit> {
                         icon: const Icon(Icons.close),
                         onPressed: () => context
                             .read<FavoritesCubit>()
-                            .removeFavorite(state.favorites[index].id),
+                            .removeFavorite(state.favorites[index]),
                       ));
                 },
               );

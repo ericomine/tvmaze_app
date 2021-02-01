@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tvmaze_app/app/tv_show_details/widgets/season_explorer.dart';
+import 'package:tvmaze_app/app/widgets/tv_static_warning.dart';
 
 import '../../domain/entities/tv_show.dart';
 import '../common/cubit_page.dart';
@@ -26,11 +27,11 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
-      buildWhen: (previous, current) =>
-          previous.tvShow != current.tvShow ||
-          previous.episodesPerSeason != current.episodesPerSeason ||
-          previous.isFavorite != current.isFavorite,
       builder: (context, state) {
+        if (state.errorMessage != null) {
+          return TvStaticWarning(message: state.errorMessage);
+        }
+
         return Scaffold(
           appBar: AppBar(
             title: Text(state.tvShow?.name ?? ""),

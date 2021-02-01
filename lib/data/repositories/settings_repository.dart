@@ -1,4 +1,5 @@
 import 'package:injectable/injectable.dart';
+import 'package:logger/logger.dart';
 import 'package:tvmaze_app/app/common/result.dart';
 import 'package:tvmaze_app/data/repositories/settings_data_source.dart';
 
@@ -12,8 +13,9 @@ abstract class SettingsRepository {
 @LazySingleton(as: SettingsRepository)
 class SettingsRepositoryImpl implements SettingsRepository {
   final SettingsDataSource dataSource;
+  final Logger logger;
 
-  SettingsRepositoryImpl(this.dataSource);
+  SettingsRepositoryImpl(this.dataSource, this.logger);
 
   @override
   Result<bool> getHasBiometrics() {
@@ -21,6 +23,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       final hasBiometrics = dataSource.getHasBiometrics();
       return Result.success(value: hasBiometrics);
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred getting cached device info");
     }
   }
@@ -31,6 +34,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       final useAuth = dataSource.getUseAuth();
       return Result.success(value: useAuth);
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred getting fingerprint settings");
     }
   }
@@ -41,6 +45,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       await dataSource.setHasBiometrics(value);
       return const Result.success();
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred saving device info.");
     }
   }
@@ -51,6 +56,7 @@ class SettingsRepositoryImpl implements SettingsRepository {
       await dataSource.setUseAuth(value);
       return const Result.success();
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred saving fingerprint settings.");
     }
   }

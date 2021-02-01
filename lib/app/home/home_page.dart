@@ -35,6 +35,10 @@ class HomePage extends CubitPage<HomeCubit> {
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
           child: BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
+              if (state.errorMessage != null) {
+                return TvStaticWarning(message: state.errorMessage);
+              }
+
               return Stack(
                 alignment: Alignment.topCenter,
                 children: [

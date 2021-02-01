@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tvmaze_app/app/common/cubit_page.dart';
 import 'package:tvmaze_app/app/router.gr.dart';
+import 'package:tvmaze_app/app/widgets/tv_static_warning.dart';
 
 import 'auth_cubit.dart';
 import 'auth_state.dart';
@@ -19,17 +20,13 @@ class AuthPage extends CubitPage<AuthCubit> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: SingleChildScrollView(
-      child: BlocConsumer<AuthCubit, AuthState>(
-        listenWhen: (previous, current) =>
-            previous.shouldNavigateToHome != current.shouldNavigateToHome,
-        listener: (context, state) {
+    return Scaffold(body: SingleChildScrollView(
+      child: BlocBuilder<AuthCubit, AuthState>(
+        builder: (context, state) {
           if (state.shouldNavigateToHome) {
             ExtendedNavigator.root.replace(Routes.homePage);
           }
-        },
-        builder: (context, state) {
+
           if (state.needsToSetUseAuth) {
             return PleaseSetAuth(
                 setUseAuth: context.read<AuthCubit>().setUseAuth);
@@ -42,6 +39,10 @@ class AuthPage extends CubitPage<AuthCubit> {
                   context.read<AuthCubit>().handleNoBiometrics,
               hasBiometrics: state.hasBiometrics,
             );
+          }
+
+          if (state.errorMessage != null) {
+            return TvStaticWarning(message: state.errorMessage);
           }
 
           return Container();

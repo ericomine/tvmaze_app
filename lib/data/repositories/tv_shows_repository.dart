@@ -1,4 +1,5 @@
-import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:injectable/injectable.dart';
+import 'package:logger/logger.dart';
 import 'package:tvmaze_app/app/common/result.dart';
 import 'package:tvmaze_app/data/api/tvmaze_api.dart';
 import 'package:tvmaze_app/domain/entities/episode.dart';
@@ -12,10 +13,12 @@ abstract class TvShowsRepository {
   Future<Result<List<SearchResult>>> searchShows(String query);
 }
 
+@LazySingleton(as: TvShowsRepository)
 class TvShowsRepositoryImpl implements TvShowsRepository {
   final TvMazeApi api;
+  final Logger logger;
 
-  TvShowsRepositoryImpl(this.api);
+  TvShowsRepositoryImpl(this.api, this.logger);
 
   @override
   Future<Result<List<Episode>>> getEpisodes(int showId) async {
@@ -23,6 +26,7 @@ class TvShowsRepositoryImpl implements TvShowsRepository {
       final episodes = await api.getEpisodes(showId: showId);
       return Result.success(value: episodes);
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred fetching episodes from API.");
     }
   }
@@ -33,6 +37,7 @@ class TvShowsRepositoryImpl implements TvShowsRepository {
       final tvShow = await api.getShow(id: id);
       return Result.success(value: tvShow);
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred fetching TvShow from API.");
     }
   }
@@ -43,6 +48,7 @@ class TvShowsRepositoryImpl implements TvShowsRepository {
       final tvShows = await api.getShowList(page: page);
       return Result.success(value: tvShows);
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred fetching TvShows from API.");
     }
   }
@@ -53,6 +59,7 @@ class TvShowsRepositoryImpl implements TvShowsRepository {
       final searchResult = await api.searchShows(query: query);
       return Result.success(value: searchResult);
     } catch (error) {
+      logger.e(error);
       return const Result.error("Error occurred searching TvShows on API.");
     }
   }

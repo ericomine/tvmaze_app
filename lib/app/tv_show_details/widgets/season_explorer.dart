@@ -12,26 +12,36 @@ class SeasonExplorer extends StatefulWidget {
 }
 
 class _SeasonExplorerState extends State<SeasonExplorer> {
-  final pageController = PageController(initialPage: 1);
+  int selectedSeason = 1;
 
   @override
   Widget build(BuildContext context) {
     final seasons = widget.episodesPerSeason.keys.toList();
 
+    final onPrevious = selectedSeason > 1
+        ? () => setState(() {
+              selectedSeason -= 1;
+            })
+        : null;
+
+    final onNext = selectedSeason <= seasons.last
+        ? () => setState(() {
+              selectedSeason += 1;
+            })
+        : null;
+
     return Column(
       children: [
-        ...seasons
-            .map((s) => ExpansionTile(
-                  title: Text('Season $s',
-                      style: Theme.of(context).textTheme.headline5),
-                  children: [
-                    EpisodeListView(
-                      season: s,
-                      episodes: widget.episodesPerSeason[s],
-                    )
-                  ],
-                ))
-            .toList(),
+        Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+          IconButton(
+              icon: const Icon(Icons.chevron_left), onPressed: onPrevious),
+          Text("Season $selectedSeason",
+              style: Theme.of(context).textTheme.headline5),
+          IconButton(icon: const Icon(Icons.chevron_right), onPressed: onNext)
+        ]),
+        EpisodeListView(
+            season: selectedSeason,
+            episodes: widget.episodesPerSeason[selectedSeason]),
       ],
     );
   }

@@ -22,9 +22,13 @@ class EpisodeListView extends StatelessWidget {
     final seasonEpisodes = episodes.where((ep) => ep.season == season).toList();
     seasonEpisodes.sort((a, b) => a.number - b.number);
 
-    final episodeViewList =
-        seasonEpisodes.map((ep) => EpisodeTile(episode: ep));
-
-    return Column(children: [...episodeViewList]);
+    return ListView.builder(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        itemCount: seasonEpisodes.length,
+        itemBuilder: (context, index) => Padding(
+              padding: const EdgeInsets.all(5.0),
+              child: EpisodeTile(episode: seasonEpisodes[index]),
+            ));
   }
 }

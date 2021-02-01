@@ -1,14 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tvmaze_app/app/tv_show_details/widgets/season_explorer.dart';
-import 'package:tvmaze_app/app/widgets/tv_static_warning.dart';
 
 import '../../domain/entities/tv_show.dart';
 import '../common/cubit_page.dart';
+import '../router.gr.dart';
 import '../widgets/big_progress_indicator.dart';
 import '../widgets/rhomboid_card/rhomboid_card.dart';
+import '../widgets/tv_static_warning.dart';
 import 'tv_show_details_cubit.dart';
 import 'tv_show_details_state.dart';
+import 'widgets/count_card.dart';
 import 'widgets/schedule_view.dart';
 
 class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
@@ -74,10 +76,7 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
               bodyMaxLines: 20,
             ),
             _buildScheduleCard(state.tvShow),
-            RhomboidCard(
-              title: "Episodes",
-              customContent: _buildEpisodesList(context, state),
-            ),
+            _buildEpisodesCard(context, state),
           ],
         ),
       ),
@@ -111,15 +110,39 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
     );
   }
 
-  Widget _buildEpisodesList(BuildContext context, TvShowDetailsState state) {
+  Widget _buildEpisodesCard(BuildContext context, TvShowDetailsState state) {
     if (state.isLoadingEpisodes) {
-      return const LinearProgressIndicator();
+      return const RhomboidCard(
+          title: "Episodes", customContent: LinearProgressIndicator());
     }
 
     if (state.episodesPerSeason.isEmpty) {
-      return const Text("No episodes to show");
+      return const RhomboidCard(
+          title: "Episodes", body: "No information about episodes");
     }
 
-    return SeasonExplorer(episodesPerSeason: state.episodesPerSeason);
+    final totalEpisodes = state.episodesPerSeason.values
+        .fold<int>(0, (acc, list) => acc + list.length);
+
+    final content = Column(children: [
+      const SizedBox(height: 20),
+      Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          CountCard(counter: state.episodesPerSeason.length, title: "Seasons"),
+          CountCard(counter: totalEpisodes, title: "Episodes"),
+        ],
+      ),
+      const SizedBox(height: 20),
+      ListTile(
+          title: const Text("View detailed episodes information"),
+          trailing: const Icon(Icons.chevron_right),
+          onTap: () => ExtendedNavigator.root.push(Routes.seasonExplorerPage,
+              arguments: SeasonExplorerPageArguments(
+                  episodesPerSeason: state.episodesPerSeason,
+                  showName: state.tvShow.name)))
+    ]);
+
+    return RhomboidCard(title: "Episodes", customContent: content);
   }
 }

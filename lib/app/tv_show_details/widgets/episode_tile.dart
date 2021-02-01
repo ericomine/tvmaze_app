@@ -10,16 +10,19 @@ class EpisodeTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      title: Text(
-        "S${episode.season}E${episode.number} - ${episode.name}",
-        style: Theme.of(context).textTheme.headline6,
+    return Container(
+      color: Theme.of(context).primaryColor,
+      child: ListTile(
+        title: Text(
+          "S${episode.season}E${episode.number} - ${episode.name}",
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        trailing: const Icon(Icons.chevron_right),
+        onTap: () async {
+          await showDialog(
+              context: context, child: EpisodeDialog(episode: episode));
+        },
       ),
-      trailing: const Icon(Icons.chevron_right),
-      onTap: () async {
-        await showDialog(
-            context: context, child: EpisodeDialog(episode: episode));
-      },
     );
   }
 }

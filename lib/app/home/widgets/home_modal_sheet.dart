@@ -7,13 +7,11 @@ import '../home_state.dart';
 
 class HomeModalSheet extends CubitPage<HomeCubit> {
   final void Function() onTapFav;
-  final void Function() onTapResetPin;
-  final void Function() onTapResetFingerprint;
+  final void Function() onTapResetFpSettings;
 
   HomeModalSheet({
     this.onTapFav,
-    this.onTapResetPin,
-    this.onTapResetFingerprint,
+    this.onTapResetFpSettings,
   });
 
   @override
@@ -32,18 +30,10 @@ class HomeModalSheet extends CubitPage<HomeCubit> {
                 onTap: onTapFav,
               ),
               ListTile(
-                enabled: false,
-                leading: const Icon(Icons.fiber_pin),
-                title: const Text("Reset my pin"),
-                trailing: const Icon(Icons.chevron_right),
-                onTap: onTapResetPin,
-              ),
-              ListTile(
-                enabled: false,
                 leading: const Icon(Icons.fingerprint),
-                title: const Text("Reset my fingerprint"),
+                title: const Text("Reset my fingerprint settings"),
                 trailing: const Icon(Icons.chevron_right),
-                onTap: onTapResetFingerprint,
+                onTap: onTapResetFpSettings,
               ),
             ],
           ),

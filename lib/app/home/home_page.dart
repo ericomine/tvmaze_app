@@ -53,16 +53,21 @@ class HomePage extends CubitPage<HomeCubit> {
                             ),
                           ),
                           context: context,
-                          builder: (context) {
+                          builder: (_) {
                             return Container(
                                 color: Colors.transparent,
-                                child: HomeModalSheet(
-                                  onTapFav: () {
-                                    ExtendedNavigator.root.pop();
-                                    ExtendedNavigator.root
-                                        .push(Routes.favoritesPage);
-                                  },
-                                ));
+                                child: HomeModalSheet(onTapFav: () {
+                                  ExtendedNavigator.root.pop();
+                                  ExtendedNavigator.root
+                                      .push(Routes.favoritesPage);
+                                }, onTapResetFpSettings: () {
+                                  context
+                                      .read<HomeCubit>()
+                                      .resetFingerprintSettings();
+                                  ExtendedNavigator.root
+                                      .replace(Routes.authPage);
+                                  ExtendedNavigator.root.popUntilRoot();
+                                }));
                           },
                         );
                       }),

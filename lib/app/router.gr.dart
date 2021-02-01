@@ -42,7 +42,7 @@ class Router extends RouterBase {
   final _pagesMap = <Type, AutoRouteFactory>{
     AuthPage: (data) {
       return MaterialPageRoute<dynamic>(
-        builder: (context) => const AuthPage(),
+        builder: (context) => AuthPage(),
         settings: data,
       );
     },

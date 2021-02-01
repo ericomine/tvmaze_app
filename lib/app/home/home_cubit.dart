@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:tvmaze_app/data/api/tvmaze_api.dart';
+import 'package:tvmaze_app/data/datasources/settings_data_source.dart';
 import 'package:tvmaze_app/domain/entities/tv_show.dart';
 
 import 'home_state.dart';
@@ -8,8 +9,9 @@ import 'home_state.dart';
 @injectable
 class HomeCubit extends Cubit<HomeState> {
   final TVMazeApi api; // TODO: Use repository/datasources
+  final SettingsDataSource settingsDataSource;
 
-  HomeCubit(this.api) : super(HomeState.initial());
+  HomeCubit(this.api, this.settingsDataSource) : super(HomeState.initial());
 
   Future<void> init() async {
     emit(state.copyWith(isLoading: true));
@@ -72,5 +74,9 @@ class HomeCubit extends Cubit<HomeState> {
     // TODO: if (result is Error) {}
 
     return showList;
+  }
+
+  Future<void> resetFingerprintSettings() async {
+    await settingsDataSource.setUseAuth(null);
   }
 }

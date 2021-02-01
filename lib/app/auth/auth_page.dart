@@ -1,109 +1,49 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:get_it/get_it.dart';
-import 'package:local_auth/local_auth.dart';
 
-class AuthPage extends StatefulWidget {
-  const AuthPage({Key key}) : super(key: key);
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tvmaze_app/app/common/cubit_page.dart';
+import 'package:tvmaze_app/app/router.gr.dart';
+import 'package:tvmaze_app/app/widgets/tv_static_warning.dart';
 
+import 'auth_cubit.dart';
+import 'auth_state.dart';
+import 'widgets/please_authenticate.dart';
+import 'widgets/please_set_auth.dart';
+
+class AuthPage extends CubitPage<AuthCubit> {
   @override
-  _AuthPageState createState() => _AuthPageState();
-}
-
-class _AuthPageState extends State<AuthPage> {
-  LocalAuthentication auth = GetIt.instance<LocalAuthentication>();
-  bool _canCheckBiometrics;
-  List<BiometricType> _availableBiometrics;
-  String _authorized = 'Not Authorized';
-  bool _isAuthenticating = false;
-
-  Future<void> _checkBiometrics() async {
-    bool canCheckBiometrics;
-    try {
-      canCheckBiometrics = await auth.canCheckBiometrics;
-    } on PlatformException catch (e) {
-      print(e);
-    }
-    if (!mounted) return;
-
-    setState(() {
-      _canCheckBiometrics = canCheckBiometrics;
-    });
-  }
-
-  Future<void> _getAvailableBiometrics() async {
-    List<BiometricType> availableBiometrics;
-    try {
-      availableBiometrics = await auth.getAvailableBiometrics();
-    } on PlatformException catch (e) {
-      print(e);
-    }
-    if (!mounted) return;
-
-    setState(() {
-      _availableBiometrics = availableBiometrics;
-    });
-  }
-
-  Future<void> _authenticate() async {
-    bool authenticated = false;
-    try {
-      setState(() {
-        _isAuthenticating = true;
-        _authorized = 'Authenticating';
-      });
-      authenticated = await auth.authenticateWithBiometrics(
-          localizedReason: 'Scan your fingerprint to authenticate',
-          useErrorDialogs: true,
-          stickyAuth: true);
-      setState(() {
-        _isAuthenticating = false;
-        _authorized = 'Authenticating';
-      });
-    } on PlatformException catch (e) {
-      print(e);
-    }
-    if (!mounted) return;
-
-    final String message = authenticated ? 'Authorized' : 'Not Authorized';
-    setState(() {
-      _authorized = message;
-    });
-  }
-
-  void _cancelAuthentication() {
-    auth.stopAuthentication();
+  void onInit(BuildContext context, AuthCubit cubit) {
+    super.onInit(context, cubit);
+    cubit.init();
   }
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Scaffold(
-      appBar: AppBar(
-        title: const Text('Plugin example app'),
+    return Scaffold(
+        body: SingleChildScrollView(
+      child: BlocConsumer<AuthCubit, AuthState>(
+        listenWhen: (previous, current) =>
+            previous.authenticated != current.authenticated,
+        listener: (context, state) {
+          if (state.authenticated) {
+            ExtendedNavigator.root.replace(Routes.homePage);
+          }
+        },
+        builder: (context, state) {
+          if (state.needsToSetUseAuth) {
+            return PleaseSetAuth(
+                setUseAuth: context.read<AuthCubit>().setUseAuth);
+          }
+
+          if (state.needsToAuthenticate) {
+            return PleaseAuthenticate(
+                onTap: context.read<AuthCubit>().authenticate);
+          }
+
+          return const TvStaticWarning(message: "Oops, something went wrong");
+        },
       ),
-      body: ConstrainedBox(
-          constraints: const BoxConstraints.expand(),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text('Can check biometrics: $_canCheckBiometrics\n'),
-                RaisedButton(
-                  child: const Text('Check biometrics'),
-                  onPressed: _checkBiometrics,
-                ),
-                Text('Available biometrics: $_availableBiometrics\n'),
-                RaisedButton(
-                  child: const Text('Get available biometrics'),
-                  onPressed: _getAvailableBiometrics,
-                ),
-                Text('Current State: $_authorized\n'),
-                RaisedButton(
-                  child: Text(_isAuthenticating ? 'Cancel' : 'Authenticate'),
-                  onPressed:
-                      _isAuthenticating ? _cancelAuthentication : _authenticate,
-                )
-              ])),
     ));
   }
 }

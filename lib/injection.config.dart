@@ -12,11 +12,13 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/injection/api_module.dart';
+import 'app/auth/auth_cubit.dart';
 import 'app/favorites/favorites_cubit.dart';
 import 'data/datasources/favorites_data_source.dart';
 import 'app/home/home_cubit.dart';
 import 'data/injection/local_auth_module.dart';
 import 'data/injection/logger_module.dart';
+import 'data/datasources/settings_data_source.dart';
 import 'data/injection/shared_prefs_module.dart';
 import 'data/api/tvmaze_api.dart';
 import 'app/tv_show_details/tv_show_details_cubit.dart';
@@ -43,11 +45,16 @@ Future<GetIt> $initGetIt(
   gh.lazySingleton<TVMazeApi>(() => apiModule.tvMazeApi);
   gh.factory<FavoritesDataSource>(
       () => FavoritesDataSource(get<SharedPreferences>()));
-  gh.factory<HomeCubit>(() => HomeCubit(get<TVMazeApi>()));
+  gh.factory<SettingsDataSource>(
+      () => SettingsDataSource(get<SharedPreferences>()));
   gh.factory<TvShowDetailsCubit>(
       () => TvShowDetailsCubit(get<TVMazeApi>(), get<FavoritesDataSource>()));
+  gh.factory<AuthCubit>(
+      () => AuthCubit(get<SettingsDataSource>(), get<LocalAuthentication>()));
   gh.factory<FavoritesCubit>(
       () => FavoritesCubit(get<TVMazeApi>(), get<FavoritesDataSource>()));
+  gh.factory<HomeCubit>(
+      () => HomeCubit(get<TVMazeApi>(), get<SettingsDataSource>()));
   return get;
 }
 

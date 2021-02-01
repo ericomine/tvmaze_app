@@ -17,6 +17,7 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   TextEditingController _controller;
   Timer _debounce;
+  bool _hasFocus;
 
   void _onSearchChanged() {
     if (_debounce?.isActive ?? false) _debounce.cancel();
@@ -25,11 +26,18 @@ class _SearchBarState extends State<SearchBar> {
     });
   }
 
+  void _onFocusChanged(bool value) {
+    setState(() {
+      _hasFocus = value;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
     _controller = TextEditingController();
     _controller.addListener(_onSearchChanged);
+    _hasFocus = false;
   }
 
   @override
@@ -53,12 +61,23 @@ class _SearchBarState extends State<SearchBar> {
               child: Icon(Icons.search),
             ),
             Expanded(
-              child: TextField(
-                  controller: _controller,
-                  decoration: const InputDecoration()
-                      .applyDefaults(Theme.of(context).inputDecorationTheme)
-                      .copyWith(hintText: "Type to search shows")),
+              child: FocusScope(
+                onFocusChange: _onFocusChanged,
+                child: TextField(
+                    controller: _controller,
+                    decoration: const InputDecoration()
+                        .applyDefaults(Theme.of(context).inputDecorationTheme)
+                        .copyWith(hintText: "Type to search shows")),
+              ),
             ),
+            if (_hasFocus ?? false)
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: IconButton(
+                  icon: const Icon(Icons.keyboard_hide),
+                  onPressed: FocusScope.of(context).unfocus,
+                ),
+              ),
           ],
         ));
   }

@@ -31,7 +31,7 @@ class HomePage extends CubitPage<HomeCubit> {
     return Scaffold(
       body: SafeArea(
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
           child: BlocConsumer<HomeCubit, HomeState>(
             listenWhen: (previous, current) {
               return previous.searchQuery != current.searchQuery;

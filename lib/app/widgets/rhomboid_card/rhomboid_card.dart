@@ -12,6 +12,7 @@ class RhomboidCard extends StatelessWidget {
   final String imagePath;
   final double topSpace;
   final double padding;
+  final Color customColor;
   final Widget customContent;
   final void Function() onTap;
 
@@ -23,6 +24,7 @@ class RhomboidCard extends StatelessWidget {
     this.imagePath,
     this.topSpace = 10,
     this.padding = 20,
+    this.customColor,
     this.customContent,
     this.onTap,
   }) : super(key: key);
@@ -44,14 +46,14 @@ class RhomboidCard extends StatelessWidget {
     if (imagePath == null) {
       return Container(
           width: MediaQuery.of(context).size.width - 2 * padding,
-          color: Theme.of(context).primaryColor,
+          color: customColor ?? Theme.of(context).primaryColor,
           child: _buildContent(context));
     }
 
     return Container(
         width: MediaQuery.of(context).size.width - 2 * padding,
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
+            color: customColor ?? Theme.of(context).primaryColor,
             image: DecorationImage(
                 image: NetworkImage(imagePath), fit: BoxFit.cover)),
         child: _buildContent(context));
@@ -71,7 +73,8 @@ class RhomboidCard extends StatelessWidget {
               child: Container(
                 width: MediaQuery.of(context).size.width,
                 decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.80)),
+                    color: customColor?.withOpacity(0.8) ??
+                        Theme.of(context).primaryColor.withOpacity(0.8)),
                 padding:
                     EdgeInsets.fromLTRB(padding, padding, padding, 2 * padding),
                 child: Column(

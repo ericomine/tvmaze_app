@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tvmaze_app/domain/entities/episode.dart';
 
-import 'episode_view.dart';
+import 'episode_tile.dart';
 
 class EpisodeListView extends StatelessWidget {
   final int season;
@@ -23,7 +23,7 @@ class EpisodeListView extends StatelessWidget {
     seasonEpisodes.sort((a, b) => a.number - b.number);
 
     final episodeViewList =
-        seasonEpisodes.map((ep) => EpisodeView(episode: ep));
+        seasonEpisodes.map((ep) => EpisodeTile(episode: ep));
 
     return Column(children: [...episodeViewList]);
   }

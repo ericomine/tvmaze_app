@@ -28,17 +28,20 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
     return BlocBuilder<TvShowDetailsCubit, TvShowDetailsState>(
       buildWhen: (previous, current) =>
           previous.tvShow != current.tvShow ||
-          previous.episodesPerSeason != current.episodesPerSeason,
+          previous.episodesPerSeason != current.episodesPerSeason ||
+          previous.isFavorite != current.isFavorite,
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             title: Text(state.tvShow?.name ?? ""),
             actions: [
               IconButton(
-                  icon: state.isFavorite
-                      ? const Icon(Icons.favorite)
-                      : const Icon(Icons.favorite_outline),
-                  onPressed: () {})
+                tooltip: "Add to favorites",
+                icon: state.isFavorite
+                    ? const Icon(Icons.favorite)
+                    : const Icon(Icons.favorite_outline),
+                onPressed: context.read<TvShowDetailsCubit>().toggleFavorite,
+              )
             ],
           ),
           body: SafeArea(

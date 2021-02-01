@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 class TvStaticWarning extends StatelessWidget {
+  final String message;
+
+  const TvStaticWarning({
+    Key key,
+    this.message = "",
+  }) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -27,8 +34,7 @@ class TvStaticWarning extends StatelessWidget {
           ),
           Padding(
             padding: const EdgeInsets.all(20.0),
-            child: Text("No result found",
-                style: Theme.of(context).textTheme.headline6),
+            child: Text(message, style: Theme.of(context).textTheme.headline6),
           ),
         ],
       ),

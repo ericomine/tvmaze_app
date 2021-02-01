@@ -11,6 +11,8 @@ import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'data/injection/api_module.dart';
+import 'app/favorites/favorites_cubit.dart';
+import 'data/datasources/favorites_data_source.dart';
 import 'app/home/home_cubit.dart';
 import 'data/injection/logger_module.dart';
 import 'data/injection/shared_prefs_module.dart';
@@ -35,9 +37,13 @@ Future<GetIt> $initGetIt(
       await sharedPreferencesModule.sharedPreferences;
   gh.lazySingleton<SharedPreferences>(() => resolvedSharedPreferences);
   gh.lazySingleton<TVMazeApi>(() => apiModule.tvMazeApi);
-  gh.factory<TvShowDetailsCubit>(
-      () => TvShowDetailsCubit(get<TVMazeApi>(), get<SharedPreferences>()));
+  gh.factory<FavoritesDataSource>(
+      () => FavoritesDataSource(get<SharedPreferences>()));
   gh.factory<HomeCubit>(() => HomeCubit(get<TVMazeApi>()));
+  gh.factory<TvShowDetailsCubit>(
+      () => TvShowDetailsCubit(get<TVMazeApi>(), get<FavoritesDataSource>()));
+  gh.factory<FavoritesCubit>(
+      () => FavoritesCubit(get<TVMazeApi>(), get<FavoritesDataSource>()));
   return get;
 }
 

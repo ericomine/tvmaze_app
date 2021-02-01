@@ -56,7 +56,13 @@ class HomePage extends CubitPage<HomeCubit> {
                           builder: (context) {
                             return Container(
                                 color: Colors.transparent,
-                                child: HomeModalSheet());
+                                child: HomeModalSheet(
+                                  onTapFav: () {
+                                    ExtendedNavigator.root.pop();
+                                    ExtendedNavigator.root
+                                        .push(Routes.favoritesPage);
+                                  },
+                                ));
                           },
                         );
                       }),
@@ -75,7 +81,7 @@ class HomePage extends CubitPage<HomeCubit> {
     }
 
     if (state.noResultFound) {
-      return TvStaticWarning();
+      return const TvStaticWarning(message: "No result found");
     }
 
     return ListView.builder(

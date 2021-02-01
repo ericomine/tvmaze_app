@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tvmaze_app/data/datasources/favorites_data_source.dart';
 import '../../data/api/tvmaze_api.dart';
 import '../../domain/entities/episode.dart';
 import '../../domain/entities/tv_show.dart';
@@ -10,20 +10,23 @@ import 'tv_show_details_state.dart';
 @injectable
 class TvShowDetailsCubit extends Cubit<TvShowDetailsState> {
   final TVMazeApi api;
-  final SharedPreferences sharedPreferences;
+  final FavoritesDataSource favoritesDataSource;
 
-  TvShowDetailsCubit(this.api, this.sharedPreferences)
+  TvShowDetailsCubit(this.api, this.favoritesDataSource)
       : super(TvShowDetailsState.initial());
 
   Future<void> init({int tvShowId, TVShow tvShow}) async {
+    final isFavorite = favoritesDataSource.isFavorite(tvShow.id ?? tvShowId);
+
     if (tvShow == null) {
       emit(state.copyWith(isLoadingShow: true));
       final newShow = await api.getShow(id: tvShowId);
-      emit(state.copyWith(isLoadingShow: false, tvShow: newShow));
+      emit(state.copyWith(
+          isLoadingShow: false, tvShow: newShow, isFavorite: isFavorite));
       return;
     }
 
-    emit(state.copyWith(tvShow: tvShow));
+    emit(state.copyWith(tvShow: tvShow, isFavorite: isFavorite));
   }
 
   Future<void> loadEpisodes() async {
@@ -43,5 +46,23 @@ class TvShowDetailsCubit extends Cubit<TvShowDetailsState> {
       isLoadingEpisodes: false,
       episodesPerSeason: episodesPerSeason,
     ));
+  }
+
+  void toggleFavorite() {
+    if (state.isFavorite) {
+      removeFavorite();
+      return;
+    }
+    saveFavorite();
+  }
+
+  void saveFavorite() {
+    favoritesDataSource.addFavorite(state.tvShow.id);
+    emit(state.copyWith(isFavorite: true));
+  }
+
+  void removeFavorite() {
+    favoritesDataSource.removeFavorite(state.tvShow.id);
+    emit(state.copyWith(isFavorite: false));
   }
 }

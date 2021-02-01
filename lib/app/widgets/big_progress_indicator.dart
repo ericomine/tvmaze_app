@@ -8,7 +8,6 @@ class BigProgressIndicator extends StatelessWidget {
         height: 200,
         width: 200,
         child: CircularProgressIndicator(
-          backgroundColor: Colors.black87,
           valueColor:
               AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
           strokeWidth: 30,

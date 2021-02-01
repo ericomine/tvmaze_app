@@ -7,6 +7,7 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:injectable/injectable.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:logger/logger.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -14,6 +15,7 @@ import 'data/injection/api_module.dart';
 import 'app/favorites/favorites_cubit.dart';
 import 'data/datasources/favorites_data_source.dart';
 import 'app/home/home_cubit.dart';
+import 'data/injection/local_auth_module.dart';
 import 'data/injection/logger_module.dart';
 import 'data/injection/shared_prefs_module.dart';
 import 'data/api/tvmaze_api.dart';
@@ -29,9 +31,11 @@ Future<GetIt> $initGetIt(
 }) async {
   final gh = GetItHelper(get, environment, environmentFilter);
   final apiModule = _$ApiModule();
+  final localAuthModule = _$LocalAuthModule();
   final loggerModule = _$LoggerModule();
   final sharedPreferencesModule = _$SharedPreferencesModule();
   gh.lazySingleton<Dio>(() => apiModule.dio);
+  gh.lazySingleton<LocalAuthentication>(() => localAuthModule.localAuth);
   gh.lazySingleton<Logger>(() => loggerModule.logger);
   final resolvedSharedPreferences =
       await sharedPreferencesModule.sharedPreferences;
@@ -48,6 +52,8 @@ Future<GetIt> $initGetIt(
 }
 
 class _$ApiModule extends ApiModule {}
+
+class _$LocalAuthModule extends LocalAuthModule {}
 
 class _$LoggerModule extends LoggerModule {}
 

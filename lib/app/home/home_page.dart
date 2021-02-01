@@ -102,7 +102,7 @@ class HomePage extends CubitPage<HomeCubit> {
             title: tvShow?.name,
             body: tvShow?.summary,
             imagePath: tvShow.imageOriginal ?? tvShow.imageMedium,
-            topSpace: 150,
+            topSpace: 240,
             onTap: () => ExtendedNavigator.root.push(Routes.tvShowDetailsPage,
                 arguments: TvShowDetailsPageArguments(
                     tvShowId: tvShow.id, tvShow: tvShow)),

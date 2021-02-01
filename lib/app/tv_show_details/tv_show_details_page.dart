@@ -65,9 +65,10 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
         child: Column(
           children: [
             RhomboidCard(
+              imageOnly: true,
               imagePath: state.tvShow.imageOriginal ?? state.tvShow.imageMedium,
               filterImage: false,
-              topSpace: 400,
+              topSpace: 600,
             ),
             RhomboidCard(
               title: "Summary",

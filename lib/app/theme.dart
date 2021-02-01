@@ -27,6 +27,7 @@ TextTheme buildTextTheme(TextTheme base) {
           fontWeight: FontWeight.w700,
         ),
         bodyText2: base.bodyText2.copyWith(
+          fontSize: 18,
           fontWeight: FontWeight.w400,
         ),
         caption: base.caption.copyWith(

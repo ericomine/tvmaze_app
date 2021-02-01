@@ -3,11 +3,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
-  final void Function(String) onChanged;
+  final void Function(String) onSearchChanged;
+  final void Function() onOpenMenu;
 
   const SearchBar({
     Key key,
-    this.onChanged,
+    this.onSearchChanged,
+    this.onOpenMenu,
   }) : super(key: key);
 
   @override
@@ -22,7 +24,7 @@ class _SearchBarState extends State<SearchBar> {
   void _onSearchChanged() {
     if (_debounce?.isActive ?? false) _debounce.cancel();
     _debounce = Timer(const Duration(milliseconds: 500), () {
-      widget.onChanged(_controller.text);
+      widget.onSearchChanged(_controller.text);
     });
   }
 
@@ -71,13 +73,16 @@ class _SearchBarState extends State<SearchBar> {
               ),
             ),
             if (_hasFocus ?? false)
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: IconButton(
-                  icon: const Icon(Icons.keyboard_hide),
-                  onPressed: FocusScope.of(context).unfocus,
-                ),
+              IconButton(
+                tooltip: "Hide keyboard",
+                icon: const Icon(Icons.keyboard_hide),
+                onPressed: FocusScope.of(context).unfocus,
               ),
+            IconButton(
+              tooltip: "Open menu",
+              icon: const Icon(Icons.menu),
+              onPressed: widget.onOpenMenu,
+            ),
           ],
         ));
   }

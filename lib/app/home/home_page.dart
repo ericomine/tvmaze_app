@@ -1,15 +1,16 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tvmaze_app/app/widgets/big_progress_indicator.dart';
-import 'package:tvmaze_app/app/widgets/tv_static_warning.dart';
 
 import '../common/cubit_page.dart';
 import '../router.gr.dart';
+import '../widgets/big_progress_indicator.dart';
 import '../widgets/rhomboid_card/rhomboid_card.dart';
 import '../widgets/search_bar/search_bar.dart';
+import '../widgets/tv_static_warning.dart';
 import 'home_cubit.dart';
 import 'home_state.dart';
+import 'widgets/home_modal_sheet.dart';
 
 class HomePage extends CubitPage<HomeCubit> {
   @override
@@ -32,16 +33,7 @@ class HomePage extends CubitPage<HomeCubit> {
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-          child: BlocConsumer<HomeCubit, HomeState>(
-            listenWhen: (previous, current) {
-              return previous.searchQuery != current.searchQuery;
-            },
-            listener: (context, state) {
-              // TODO: implement listener
-            },
-            buildWhen: (previous, current) {
-              return previous.showList != current.showList;
-            },
+          child: BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
               return Stack(
                 alignment: Alignment.topCenter,
@@ -51,10 +43,23 @@ class HomePage extends CubitPage<HomeCubit> {
                     child: _buildShowList(context, state),
                   ),
                   SearchBar(
-                    onChanged: (searchQuery) {
-                      context.read<HomeCubit>().onQueryChanged(searchQuery);
-                    },
-                  ),
+                      onSearchChanged: context.read<HomeCubit>().onQueryChanged,
+                      onOpenMenu: () {
+                        showModalBottomSheet(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(40.0),
+                              topRight: Radius.circular(40.0),
+                            ),
+                          ),
+                          context: context,
+                          builder: (context) {
+                            return Container(
+                                color: Colors.transparent,
+                                child: HomeModalSheet());
+                          },
+                        );
+                      }),
                 ],
               );
             },

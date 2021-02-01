@@ -33,6 +33,13 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
         return Scaffold(
           appBar: AppBar(
             title: Text(state.tvShow?.name ?? ""),
+            actions: [
+              IconButton(
+                  icon: state.isFavorite
+                      ? const Icon(Icons.favorite)
+                      : const Icon(Icons.favorite_outline),
+                  onPressed: () {})
+            ],
           ),
           body: SafeArea(
             child: _buildBody(context, state),

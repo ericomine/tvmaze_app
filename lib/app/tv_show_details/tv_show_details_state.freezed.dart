@@ -17,6 +17,7 @@ class _$TvShowDetailsStateTearOff {
   _TvShowDetailsState call(
       {@required ScrollController scrollController,
       @required @nullable TVShow tvShow,
+      @required bool isFavorite,
       @required @nullable Map<int, List<Episode>> episodesPerSeason,
       @required bool isLoadingShow,
       @required bool isLoadingEpisodes,
@@ -24,6 +25,7 @@ class _$TvShowDetailsStateTearOff {
     return _TvShowDetailsState(
       scrollController: scrollController,
       tvShow: tvShow,
+      isFavorite: isFavorite,
       episodesPerSeason: episodesPerSeason,
       isLoadingShow: isLoadingShow,
       isLoadingEpisodes: isLoadingEpisodes,
@@ -41,6 +43,7 @@ mixin _$TvShowDetailsState {
   ScrollController get scrollController;
   @nullable
   TVShow get tvShow;
+  bool get isFavorite;
   @nullable
   Map<int, List<Episode>> get episodesPerSeason;
   bool get isLoadingShow;
@@ -60,6 +63,7 @@ abstract class $TvShowDetailsStateCopyWith<$Res> {
   $Res call(
       {ScrollController scrollController,
       @nullable TVShow tvShow,
+      bool isFavorite,
       @nullable Map<int, List<Episode>> episodesPerSeason,
       bool isLoadingShow,
       bool isLoadingEpisodes,
@@ -79,6 +83,7 @@ class _$TvShowDetailsStateCopyWithImpl<$Res>
   $Res call({
     Object scrollController = freezed,
     Object tvShow = freezed,
+    Object isFavorite = freezed,
     Object episodesPerSeason = freezed,
     Object isLoadingShow = freezed,
     Object isLoadingEpisodes = freezed,
@@ -89,6 +94,8 @@ class _$TvShowDetailsStateCopyWithImpl<$Res>
           ? _value.scrollController
           : scrollController as ScrollController,
       tvShow: tvShow == freezed ? _value.tvShow : tvShow as TVShow,
+      isFavorite:
+          isFavorite == freezed ? _value.isFavorite : isFavorite as bool,
       episodesPerSeason: episodesPerSeason == freezed
           ? _value.episodesPerSeason
           : episodesPerSeason as Map<int, List<Episode>>,
@@ -115,6 +122,7 @@ abstract class _$TvShowDetailsStateCopyWith<$Res>
   $Res call(
       {ScrollController scrollController,
       @nullable TVShow tvShow,
+      bool isFavorite,
       @nullable Map<int, List<Episode>> episodesPerSeason,
       bool isLoadingShow,
       bool isLoadingEpisodes,
@@ -136,6 +144,7 @@ class __$TvShowDetailsStateCopyWithImpl<$Res>
   $Res call({
     Object scrollController = freezed,
     Object tvShow = freezed,
+    Object isFavorite = freezed,
     Object episodesPerSeason = freezed,
     Object isLoadingShow = freezed,
     Object isLoadingEpisodes = freezed,
@@ -146,6 +155,8 @@ class __$TvShowDetailsStateCopyWithImpl<$Res>
           ? _value.scrollController
           : scrollController as ScrollController,
       tvShow: tvShow == freezed ? _value.tvShow : tvShow as TVShow,
+      isFavorite:
+          isFavorite == freezed ? _value.isFavorite : isFavorite as bool,
       episodesPerSeason: episodesPerSeason == freezed
           ? _value.episodesPerSeason
           : episodesPerSeason as Map<int, List<Episode>>,
@@ -167,11 +178,13 @@ class _$_TvShowDetailsState implements _TvShowDetailsState {
   const _$_TvShowDetailsState(
       {@required this.scrollController,
       @required @nullable this.tvShow,
+      @required this.isFavorite,
       @required @nullable this.episodesPerSeason,
       @required this.isLoadingShow,
       @required this.isLoadingEpisodes,
       @required @nullable this.errorMessage})
       : assert(scrollController != null),
+        assert(isFavorite != null),
         assert(isLoadingShow != null),
         assert(isLoadingEpisodes != null);
 
@@ -180,6 +193,8 @@ class _$_TvShowDetailsState implements _TvShowDetailsState {
   @override
   @nullable
   final TVShow tvShow;
+  @override
+  final bool isFavorite;
   @override
   @nullable
   final Map<int, List<Episode>> episodesPerSeason;
@@ -193,7 +208,7 @@ class _$_TvShowDetailsState implements _TvShowDetailsState {
 
   @override
   String toString() {
-    return 'TvShowDetailsState(scrollController: $scrollController, tvShow: $tvShow, episodesPerSeason: $episodesPerSeason, isLoadingShow: $isLoadingShow, isLoadingEpisodes: $isLoadingEpisodes, errorMessage: $errorMessage)';
+    return 'TvShowDetailsState(scrollController: $scrollController, tvShow: $tvShow, isFavorite: $isFavorite, episodesPerSeason: $episodesPerSeason, isLoadingShow: $isLoadingShow, isLoadingEpisodes: $isLoadingEpisodes, errorMessage: $errorMessage)';
   }
 
   @override
@@ -205,6 +220,9 @@ class _$_TvShowDetailsState implements _TvShowDetailsState {
                     .equals(other.scrollController, scrollController)) &&
             (identical(other.tvShow, tvShow) ||
                 const DeepCollectionEquality().equals(other.tvShow, tvShow)) &&
+            (identical(other.isFavorite, isFavorite) ||
+                const DeepCollectionEquality()
+                    .equals(other.isFavorite, isFavorite)) &&
             (identical(other.episodesPerSeason, episodesPerSeason) ||
                 const DeepCollectionEquality()
                     .equals(other.episodesPerSeason, episodesPerSeason)) &&
@@ -224,6 +242,7 @@ class _$_TvShowDetailsState implements _TvShowDetailsState {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(scrollController) ^
       const DeepCollectionEquality().hash(tvShow) ^
+      const DeepCollectionEquality().hash(isFavorite) ^
       const DeepCollectionEquality().hash(episodesPerSeason) ^
       const DeepCollectionEquality().hash(isLoadingShow) ^
       const DeepCollectionEquality().hash(isLoadingEpisodes) ^
@@ -239,6 +258,7 @@ abstract class _TvShowDetailsState implements TvShowDetailsState {
   const factory _TvShowDetailsState(
       {@required ScrollController scrollController,
       @required @nullable TVShow tvShow,
+      @required bool isFavorite,
       @required @nullable Map<int, List<Episode>> episodesPerSeason,
       @required bool isLoadingShow,
       @required bool isLoadingEpisodes,
@@ -249,6 +269,8 @@ abstract class _TvShowDetailsState implements TvShowDetailsState {
   @override
   @nullable
   TVShow get tvShow;
+  @override
+  bool get isFavorite;
   @override
   @nullable
   Map<int, List<Episode>> get episodesPerSeason;

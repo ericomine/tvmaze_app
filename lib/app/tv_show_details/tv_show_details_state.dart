@@ -10,6 +10,7 @@ abstract class TvShowDetailsState with _$TvShowDetailsState {
   const factory TvShowDetailsState({
     @required ScrollController scrollController,
     @required @nullable TVShow tvShow,
+    @required bool isFavorite,
     @required @nullable Map<int, List<Episode>> episodesPerSeason,
     @required bool isLoadingShow,
     @required bool isLoadingEpisodes,
@@ -19,6 +20,7 @@ abstract class TvShowDetailsState with _$TvShowDetailsState {
   factory TvShowDetailsState.initial() => TvShowDetailsState(
         scrollController: ScrollController(),
         tvShow: null,
+        isFavorite: false,
         episodesPerSeason: {},
         isLoadingShow: false,
         isLoadingEpisodes: false,

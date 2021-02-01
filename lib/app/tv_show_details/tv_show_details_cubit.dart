@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../data/api/tvmaze_api.dart';
 import '../../domain/entities/episode.dart';
 import '../../domain/entities/tv_show.dart';
@@ -9,8 +10,10 @@ import 'tv_show_details_state.dart';
 @injectable
 class TvShowDetailsCubit extends Cubit<TvShowDetailsState> {
   final TVMazeApi api;
+  final SharedPreferences sharedPreferences;
 
-  TvShowDetailsCubit(this.api) : super(TvShowDetailsState.initial());
+  TvShowDetailsCubit(this.api, this.sharedPreferences)
+      : super(TvShowDetailsState.initial());
 
   Future<void> init({int tvShowId, TVShow tvShow}) async {
     if (tvShow == null) {

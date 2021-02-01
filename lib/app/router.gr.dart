@@ -78,6 +78,6 @@ class Router extends RouterBase {
 /// TvShowDetailsPage arguments holder class
 class TvShowDetailsPageArguments {
   final int tvShowId;
-  final TVShow tvShow;
+  final TvShow tvShow;
   TvShowDetailsPageArguments({@required this.tvShowId, @required this.tvShow});
 }

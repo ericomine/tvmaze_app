@@ -1,34 +1,36 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tvmaze_app/data/api/tvmaze_api.dart';
-import 'package:tvmaze_app/data/datasources/favorites_data_source.dart';
-import 'package:tvmaze_app/domain/entities/tv_show.dart';
+import 'package:tvmaze_app/data/repositories/favorites_repository.dart';
+import '../../domain/entities/tv_show.dart';
 
 import 'favorites_state.dart';
 
 @injectable
 class FavoritesCubit extends Cubit<FavoritesState> {
-  final TVMazeApi api;
-  final FavoritesDataSource favoritesDataSource;
+  final FavoritesRepository favoritesRepository;
 
-  FavoritesCubit(this.api, this.favoritesDataSource)
-      : super(FavoritesState.initial());
+  FavoritesCubit(this.favoritesRepository) : super(FavoritesState.initial());
 
   Future<void> init() async {
     emit(state.copyWith(isLoading: true));
 
-    final saved = favoritesDataSource.getFavorites();
-    final result = <TVShow>[];
-    for (final id in saved) {
-      final tvShow = await api.getShow(id: id);
-      result.add(tvShow);
+    final favorites = await favoritesRepository.getFavoritesSortedByName();
+    if (favorites is Error) {
+      emit(state.copyWith(
+          isLoading: false, errorMessage: favorites.errorMessage));
     }
-    result.sort((a, b) => a.name.compareTo(b.name));
-    emit(state.copyWith(isLoading: false, favorites: result));
+
+    emit(state.copyWith(isLoading: false, favorites: favorites.value));
   }
 
   Future<void> checkUpdates() async {
-    final savedIds = favoritesDataSource.getFavorites().toSet();
+    final savedIdsResult = favoritesRepository.getFavoritesIds();
+    if (savedIdsResult is Error) {
+      emit(state.copyWith(errorMessage: savedIdsResult.errorMessage));
+      return;
+    }
+
+    final savedIds = savedIdsResult.value.toSet();
     final removedIds = savedIds.length < state.favorites.length;
 
     if (removedIds) {
@@ -43,8 +45,8 @@ class FavoritesCubit extends Cubit<FavoritesState> {
     }
   }
 
-  void removeFavorite(int id) {
-    favoritesDataSource.removeFavorite(id);
+  void removeFavorite(TvShow tvShow) {
+    favoritesRepository.removeFavorite(tvShow);
     checkUpdates();
   }
 }

@@ -9,7 +9,7 @@ part 'tv_show_details_state.freezed.dart';
 abstract class TvShowDetailsState with _$TvShowDetailsState {
   const factory TvShowDetailsState({
     @required ScrollController scrollController,
-    @required @nullable TVShow tvShow,
+    @required @nullable TvShow tvShow,
     @required bool isFavorite,
     @required @nullable Map<int, List<Episode>> episodesPerSeason,
     @required bool isLoadingShow,

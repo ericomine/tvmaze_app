@@ -17,7 +17,7 @@ class _$HomeStateTearOff {
   _HomeState call(
       {@required ScrollController scrollController,
       @required bool isLoading,
-      @required List<TVShow> showList,
+      @required List<TvShow> showList,
       @required int pageIndex,
       @required String searchQuery,
       @required @nullable String errorMessage}) {
@@ -40,7 +40,7 @@ const $HomeState = _$HomeStateTearOff();
 mixin _$HomeState {
   ScrollController get scrollController;
   bool get isLoading;
-  List<TVShow> get showList;
+  List<TvShow> get showList;
   int get pageIndex;
   String get searchQuery;
   @nullable
@@ -57,7 +57,7 @@ abstract class $HomeStateCopyWith<$Res> {
   $Res call(
       {ScrollController scrollController,
       bool isLoading,
-      List<TVShow> showList,
+      List<TvShow> showList,
       int pageIndex,
       String searchQuery,
       @nullable String errorMessage});
@@ -86,7 +86,7 @@ class _$HomeStateCopyWithImpl<$Res> implements $HomeStateCopyWith<$Res> {
           : scrollController as ScrollController,
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
       showList:
-          showList == freezed ? _value.showList : showList as List<TVShow>,
+          showList == freezed ? _value.showList : showList as List<TvShow>,
       pageIndex: pageIndex == freezed ? _value.pageIndex : pageIndex as int,
       searchQuery:
           searchQuery == freezed ? _value.searchQuery : searchQuery as String,
@@ -106,7 +106,7 @@ abstract class _$HomeStateCopyWith<$Res> implements $HomeStateCopyWith<$Res> {
   $Res call(
       {ScrollController scrollController,
       bool isLoading,
-      List<TVShow> showList,
+      List<TvShow> showList,
       int pageIndex,
       String searchQuery,
       @nullable String errorMessage});
@@ -136,7 +136,7 @@ class __$HomeStateCopyWithImpl<$Res> extends _$HomeStateCopyWithImpl<$Res>
           : scrollController as ScrollController,
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
       showList:
-          showList == freezed ? _value.showList : showList as List<TVShow>,
+          showList == freezed ? _value.showList : showList as List<TvShow>,
       pageIndex: pageIndex == freezed ? _value.pageIndex : pageIndex as int,
       searchQuery:
           searchQuery == freezed ? _value.searchQuery : searchQuery as String,
@@ -168,7 +168,7 @@ class _$_HomeState extends _HomeState {
   @override
   final bool isLoading;
   @override
-  final List<TVShow> showList;
+  final List<TvShow> showList;
   @override
   final int pageIndex;
   @override
@@ -227,7 +227,7 @@ abstract class _HomeState extends HomeState {
   const factory _HomeState(
       {@required ScrollController scrollController,
       @required bool isLoading,
-      @required List<TVShow> showList,
+      @required List<TvShow> showList,
       @required int pageIndex,
       @required String searchQuery,
       @required @nullable String errorMessage}) = _$_HomeState;
@@ -237,7 +237,7 @@ abstract class _HomeState extends HomeState {
   @override
   bool get isLoading;
   @override
-  List<TVShow> get showList;
+  List<TvShow> get showList;
   @override
   int get pageIndex;
   @override

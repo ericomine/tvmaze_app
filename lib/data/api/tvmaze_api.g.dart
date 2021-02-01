@@ -6,8 +6,8 @@ part of 'tvmaze_api.dart';
 // RetrofitGenerator
 // **************************************************************************
 
-class _TVMazeApi implements TVMazeApi {
-  _TVMazeApi(this._dio, {this.baseUrl}) {
+class _TvMazeApi implements TvMazeApi {
+  _TvMazeApi(this._dio, {this.baseUrl}) {
     ArgumentError.checkNotNull(_dio, '_dio');
     baseUrl ??= 'http://api.tvmaze.com/';
   }
@@ -17,7 +17,7 @@ class _TVMazeApi implements TVMazeApi {
   String baseUrl;
 
   @override
-  Future<List<TVShow>> getShowList({page}) async {
+  Future<List<TvShow>> getShowList({page}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{r'page': page};
     queryParameters.removeWhere((k, v) => v == null);
@@ -31,7 +31,7 @@ class _TVMazeApi implements TVMazeApi {
             baseUrl: baseUrl),
         data: _data);
     var value = _result.data
-        .map((dynamic i) => TVShow.fromJson(i as Map<String, dynamic>))
+        .map((dynamic i) => TvShow.fromJson(i as Map<String, dynamic>))
         .toList();
     return value;
   }
@@ -57,7 +57,7 @@ class _TVMazeApi implements TVMazeApi {
   }
 
   @override
-  Future<TVShow> getShow({id}) async {
+  Future<TvShow> getShow({id}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     queryParameters.removeWhere((k, v) => v == null);
@@ -70,7 +70,7 @@ class _TVMazeApi implements TVMazeApi {
             extra: _extra,
             baseUrl: baseUrl),
         data: _data);
-    final value = TVShow.fromJson(_result.data);
+    final value = TvShow.fromJson(_result.data);
     return value;
   }
 

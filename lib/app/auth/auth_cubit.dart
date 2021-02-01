@@ -3,22 +3,27 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:local_auth/local_auth.dart';
-import 'package:tvmaze_app/data/datasources/settings_data_source.dart';
+import 'package:tvmaze_app/data/repositories/settings_repository.dart';
 
 import 'auth_state.dart';
 
 @injectable
 class AuthCubit extends Cubit<AuthState> {
-  final SettingsDataSource settingsDataSource;
+  final SettingsRepository settingsRepository;
   final LocalAuthentication auth;
 
-  AuthCubit(this.settingsDataSource, this.auth) : super(AuthState.initial());
+  AuthCubit(this.settingsRepository, this.auth) : super(AuthState.initial());
 
-  Future<void> init() async {
-    final useAuth = await settingsDataSource.getUseAuth();
-    final hasBiometrics = await settingsDataSource.getHasBiometrics();
+  void init() {
+    final useAuth = settingsRepository.getUseAuth();
+    final hasBiometrics = settingsRepository.getHasBiometrics();
+    if (useAuth is Error || hasBiometrics is Error) {
+      emit(state.copyWith(
+          errorMessage:
+              "${useAuth.errorMessage}, ${hasBiometrics.errorMessage}"));
+    }
 
-    if (useAuth == null) {
+    if (useAuth.value == null) {
       emit(state.copyWith(
         needsToSetUseAuth: true,
         needsToSetHasBiometrics: false,
@@ -26,10 +31,10 @@ class AuthCubit extends Cubit<AuthState> {
       return;
     }
 
-    if (useAuth) {
+    if (useAuth.value) {
       emit(state.copyWith(
         needsToSetUseAuth: false,
-        needsToSetHasBiometrics: hasBiometrics == null,
+        needsToSetHasBiometrics: hasBiometrics.value == null,
         needsToAuthenticate: true,
       ));
       return;
@@ -43,7 +48,12 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> setUseAuth(bool useAuth) async {
-    await settingsDataSource.setUseAuth(useAuth);
+    final result = await settingsRepository.setUseAuth(useAuth);
+    if (result is Error) {
+      emit(state.copyWith(errorMessage: result.errorMessage));
+      return;
+    }
+
     emit(state.copyWith(
       usesAuth: useAuth,
       needsToSetUseAuth: false,
@@ -61,7 +71,11 @@ class AuthCubit extends Cubit<AuthState> {
           stickyAuth: true);
       emit(state.copyWith(isAuthenticating: false));
     } on PlatformException catch (e) {
-      await settingsDataSource.setHasBiometrics(false);
+      final result = await settingsRepository.setHasBiometrics(false);
+      if (result is Error) {
+        emit(state.copyWith(errorMessage: result.errorMessage));
+        return;
+      }
       emit(state.copyWith(
         needsToSetHasBiometrics: false,
         hasBiometrics: false,
@@ -77,7 +91,11 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future<void> handleNoBiometrics() async {
-    await settingsDataSource.setUseAuth(false);
+    final result = await settingsRepository.setUseAuth(false);
+    if (result is Error) {
+      emit(state.copyWith(errorMessage: result.errorMessage));
+    }
+
     emit(state.copyWith(
       usesAuth: false,
       needsToAuthenticate: false,

@@ -12,7 +12,7 @@ import 'widgets/schedule_view.dart';
 
 class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
   final int tvShowId;
-  final TVShow tvShow;
+  final TvShow tvShow;
 
   TvShowDetailsPage(this.tvShowId, this.tvShow);
 
@@ -84,13 +84,13 @@ class TvShowDetailsPage extends CubitPage<TvShowDetailsCubit> {
     );
   }
 
-  String andExtrasToSummary(String summary, TVShow tvShow) {
+  String andExtrasToSummary(String summary, TvShow tvShow) {
     return '$summary '
         '\n\nGenres: ${tvShow.genres.join(", ")} '
         '\nYear: ${tvShow.premiered.substring(0, 4)} ';
   }
 
-  Widget _buildScheduleCard(TVShow tvShow) {
+  Widget _buildScheduleCard(TvShow tvShow) {
     if (tvShow?.status == 'Ended') {
       return const RhomboidCard(
         title: "Schedule",

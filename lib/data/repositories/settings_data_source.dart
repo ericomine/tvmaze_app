@@ -10,7 +10,7 @@ class SettingsDataSource {
 
   SettingsDataSource(this.sharedPreferences);
 
-  Future<bool> getUseAuth() async {
+  bool getUseAuth() {
     return sharedPreferences.getBool(_useAuthKey);
   }
 
@@ -18,7 +18,7 @@ class SettingsDataSource {
     return sharedPreferences.setBool(_useAuthKey, value);
   }
 
-  Future<bool> getHasBiometrics() async {
+  bool getHasBiometrics() {
     return sharedPreferences.getBool(_hasBiometrics);
   }
 

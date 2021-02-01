@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tvmaze_app/app/common/cubit_page.dart';
 import 'package:tvmaze_app/app/router.gr.dart';
-import 'package:tvmaze_app/app/widgets/tv_static_warning.dart';
 
 import 'auth_cubit.dart';
 import 'auth_state.dart';

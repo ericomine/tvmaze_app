@@ -16,7 +16,7 @@ class _$TvShowDetailsStateTearOff {
 // ignore: unused_element
   _TvShowDetailsState call(
       {@required ScrollController scrollController,
-      @required @nullable TVShow tvShow,
+      @required @nullable TvShow tvShow,
       @required bool isFavorite,
       @required @nullable Map<int, List<Episode>> episodesPerSeason,
       @required bool isLoadingShow,
@@ -42,7 +42,7 @@ const $TvShowDetailsState = _$TvShowDetailsStateTearOff();
 mixin _$TvShowDetailsState {
   ScrollController get scrollController;
   @nullable
-  TVShow get tvShow;
+  TvShow get tvShow;
   bool get isFavorite;
   @nullable
   Map<int, List<Episode>> get episodesPerSeason;
@@ -62,7 +62,7 @@ abstract class $TvShowDetailsStateCopyWith<$Res> {
       _$TvShowDetailsStateCopyWithImpl<$Res>;
   $Res call(
       {ScrollController scrollController,
-      @nullable TVShow tvShow,
+      @nullable TvShow tvShow,
       bool isFavorite,
       @nullable Map<int, List<Episode>> episodesPerSeason,
       bool isLoadingShow,
@@ -93,7 +93,7 @@ class _$TvShowDetailsStateCopyWithImpl<$Res>
       scrollController: scrollController == freezed
           ? _value.scrollController
           : scrollController as ScrollController,
-      tvShow: tvShow == freezed ? _value.tvShow : tvShow as TVShow,
+      tvShow: tvShow == freezed ? _value.tvShow : tvShow as TvShow,
       isFavorite:
           isFavorite == freezed ? _value.isFavorite : isFavorite as bool,
       episodesPerSeason: episodesPerSeason == freezed
@@ -121,7 +121,7 @@ abstract class _$TvShowDetailsStateCopyWith<$Res>
   @override
   $Res call(
       {ScrollController scrollController,
-      @nullable TVShow tvShow,
+      @nullable TvShow tvShow,
       bool isFavorite,
       @nullable Map<int, List<Episode>> episodesPerSeason,
       bool isLoadingShow,
@@ -154,7 +154,7 @@ class __$TvShowDetailsStateCopyWithImpl<$Res>
       scrollController: scrollController == freezed
           ? _value.scrollController
           : scrollController as ScrollController,
-      tvShow: tvShow == freezed ? _value.tvShow : tvShow as TVShow,
+      tvShow: tvShow == freezed ? _value.tvShow : tvShow as TvShow,
       isFavorite:
           isFavorite == freezed ? _value.isFavorite : isFavorite as bool,
       episodesPerSeason: episodesPerSeason == freezed
@@ -192,7 +192,7 @@ class _$_TvShowDetailsState implements _TvShowDetailsState {
   final ScrollController scrollController;
   @override
   @nullable
-  final TVShow tvShow;
+  final TvShow tvShow;
   @override
   final bool isFavorite;
   @override
@@ -257,7 +257,7 @@ class _$_TvShowDetailsState implements _TvShowDetailsState {
 abstract class _TvShowDetailsState implements TvShowDetailsState {
   const factory _TvShowDetailsState(
       {@required ScrollController scrollController,
-      @required @nullable TVShow tvShow,
+      @required @nullable TvShow tvShow,
       @required bool isFavorite,
       @required @nullable Map<int, List<Episode>> episodesPerSeason,
       @required bool isLoadingShow,
@@ -268,7 +268,7 @@ abstract class _TvShowDetailsState implements TvShowDetailsState {
   ScrollController get scrollController;
   @override
   @nullable
-  TVShow get tvShow;
+  TvShow get tvShow;
   @override
   bool get isFavorite;
   @override

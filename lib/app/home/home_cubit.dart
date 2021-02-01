@@ -1,25 +1,33 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:tvmaze_app/data/api/tvmaze_api.dart';
-import 'package:tvmaze_app/data/datasources/settings_data_source.dart';
-import 'package:tvmaze_app/domain/entities/tv_show.dart';
+import 'package:tvmaze_app/data/repositories/settings_repository.dart';
+import 'package:tvmaze_app/data/repositories/tv_shows_repository.dart';
 
+import '../../data/api/tvmaze_api.dart';
+import '../../data/repositories/settings_data_source.dart';
+import '../../domain/entities/tv_show.dart';
 import 'home_state.dart';
 
 @injectable
 class HomeCubit extends Cubit<HomeState> {
-  final TVMazeApi api; // TODO: Use repository/datasources
-  final SettingsDataSource settingsDataSource;
+  final TvShowsRepository tvShowsRepository;
+  final SettingsRepository settingsRepository;
 
-  HomeCubit(this.api, this.settingsDataSource) : super(HomeState.initial());
+  HomeCubit(this.tvShowsRepository, this.settingsRepository)
+      : super(HomeState.initial());
 
   Future<void> init() async {
     emit(state.copyWith(isLoading: true));
-    final showList = await api.getShowList(page: state.pageIndex);
+    final showList = await tvShowsRepository.getShowList(state.pageIndex);
+
+    if (showList is Error) {
+      emit(state.copyWith(errorMessage: showList.errorMessage));
+    }
+
     emit(state.copyWith(
       isLoading: false,
       pageIndex: state.pageIndex + 1,
-      showList: showList,
+      showList: showList.value,
     ));
   }
 
@@ -62,21 +70,33 @@ class HomeCubit extends Cubit<HomeState> {
     ));
   }
 
-  Future<List<TVShow>> getShowList() async {
-    List<TVShow> showList;
+  Future<List<TvShow>> getShowList() async {
+    List<TvShow> showList;
     if (state.searchQuery.isEmpty) {
-      showList = await api.getShowList(page: state.pageIndex);
+      final result = await tvShowsRepository.getShowList(state.pageIndex);
+      if (result is Error) {
+        emit(state.copyWith(errorMessage: result.errorMessage));
+        showList = [];
+      } else {
+        showList = result.value;
+      }
     } else {
-      final searchResult = await api.searchShows(query: state.searchQuery);
-      showList = searchResult.map((result) => result?.tvShow).toList();
+      final searchResult =
+          await tvShowsRepository.searchShows(state.searchQuery);
+      if (searchResult is Error) {
+        emit(state.copyWith(errorMessage: searchResult.errorMessage));
+        showList = [];
+      } else {
+        showList = searchResult.value.map((result) => result?.tvShow).toList();
+      }
     }
-
-    // TODO: if (result is Error) {}
-
     return showList;
   }
 
   Future<void> resetFingerprintSettings() async {
-    await settingsDataSource.setUseAuth(null);
+    final result = await settingsRepository.setUseAuth(null);
+    if (result is Error) {
+      emit(state.copyWith(errorMessage: result.errorMessage));
+    }
   }
 }

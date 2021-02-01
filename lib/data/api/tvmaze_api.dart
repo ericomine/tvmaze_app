@@ -7,17 +7,17 @@ import 'package:tvmaze_app/domain/entities/tv_show.dart';
 part 'tvmaze_api.g.dart';
 
 @RestApi(baseUrl: "http://api.tvmaze.com/")
-abstract class TVMazeApi {
-  factory TVMazeApi(Dio dio, {String baseUrl}) = _TVMazeApi;
+abstract class TvMazeApi {
+  factory TvMazeApi(Dio dio, {String baseUrl}) = _TvMazeApi;
 
   @GET("/shows")
-  Future<List<TVShow>> getShowList({@Query("page") int page});
+  Future<List<TvShow>> getShowList({@Query("page") int page});
 
   @GET('/search/shows')
   Future<List<SearchResult>> searchShows({@Query("q") String query});
 
   @GET("/shows/{id}")
-  Future<TVShow> getShow({@Path("id") int id});
+  Future<TvShow> getShow({@Path("id") int id});
 
   @GET("/shows/{showId}/episodes")
   Future<List<Episode>> getEpisodes({@Path("showId") int showId});

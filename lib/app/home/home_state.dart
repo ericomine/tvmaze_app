@@ -9,7 +9,7 @@ abstract class HomeState implements _$HomeState {
   const factory HomeState({
     @required ScrollController scrollController,
     @required bool isLoading,
-    @required List<TVShow> showList,
+    @required List<TvShow> showList,
     @required int pageIndex,
     @required String searchQuery,
     @required @nullable String errorMessage,

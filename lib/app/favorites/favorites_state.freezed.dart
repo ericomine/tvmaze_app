@@ -15,7 +15,7 @@ class _$FavoritesStateTearOff {
 
 // ignore: unused_element
   _FavoritesState call(
-      {@required List<TVShow> favorites,
+      {@required List<TvShow> favorites,
       @required bool isLoading,
       @required @nullable String errorMessage}) {
     return _FavoritesState(
@@ -32,7 +32,7 @@ const $FavoritesState = _$FavoritesStateTearOff();
 
 /// @nodoc
 mixin _$FavoritesState {
-  List<TVShow> get favorites;
+  List<TvShow> get favorites;
   bool get isLoading;
   @nullable
   String get errorMessage;
@@ -47,7 +47,7 @@ abstract class $FavoritesStateCopyWith<$Res> {
           FavoritesState value, $Res Function(FavoritesState) then) =
       _$FavoritesStateCopyWithImpl<$Res>;
   $Res call(
-      {List<TVShow> favorites, bool isLoading, @nullable String errorMessage});
+      {List<TvShow> favorites, bool isLoading, @nullable String errorMessage});
 }
 
 /// @nodoc
@@ -67,7 +67,7 @@ class _$FavoritesStateCopyWithImpl<$Res>
   }) {
     return _then(_value.copyWith(
       favorites:
-          favorites == freezed ? _value.favorites : favorites as List<TVShow>,
+          favorites == freezed ? _value.favorites : favorites as List<TvShow>,
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
@@ -84,7 +84,7 @@ abstract class _$FavoritesStateCopyWith<$Res>
       __$FavoritesStateCopyWithImpl<$Res>;
   @override
   $Res call(
-      {List<TVShow> favorites, bool isLoading, @nullable String errorMessage});
+      {List<TvShow> favorites, bool isLoading, @nullable String errorMessage});
 }
 
 /// @nodoc
@@ -106,7 +106,7 @@ class __$FavoritesStateCopyWithImpl<$Res>
   }) {
     return _then(_FavoritesState(
       favorites:
-          favorites == freezed ? _value.favorites : favorites as List<TVShow>,
+          favorites == freezed ? _value.favorites : favorites as List<TvShow>,
       isLoading: isLoading == freezed ? _value.isLoading : isLoading as bool,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
@@ -125,7 +125,7 @@ class _$_FavoritesState implements _FavoritesState {
         assert(isLoading != null);
 
   @override
-  final List<TVShow> favorites;
+  final List<TvShow> favorites;
   @override
   final bool isLoading;
   @override
@@ -167,12 +167,12 @@ class _$_FavoritesState implements _FavoritesState {
 
 abstract class _FavoritesState implements FavoritesState {
   const factory _FavoritesState(
-      {@required List<TVShow> favorites,
+      {@required List<TvShow> favorites,
       @required bool isLoading,
       @required @nullable String errorMessage}) = _$_FavoritesState;
 
   @override
-  List<TVShow> get favorites;
+  List<TvShow> get favorites;
   @override
   bool get isLoading;
   @override

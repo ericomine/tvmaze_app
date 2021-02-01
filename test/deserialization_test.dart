@@ -7,7 +7,7 @@ import 'package:tvmaze_app/injection.dart';
 void main() {
   configureInjection(Environment.dev);
   final getIt = GetIt.instance;
-  final realApi = getIt.get<TVMazeApi>();
+  final realApi = getIt.get<TvMazeApi>();
 
   group('Get TVShow without Episodes from the API', () {
     test('Should get TVShow.name from JSON deserialization', () async {

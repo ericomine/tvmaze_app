@@ -3,7 +3,7 @@ import 'aux/schedule.dart';
 import 'aux/tv_network.dart';
 import 'episode.dart';
 
-class TVShow {
+class TvShow {
   final int id;
   final String url;
   final String name;
@@ -18,7 +18,7 @@ class TVShow {
   final String summary;
   final List<Episode> episodes;
 
-  TVShow(
+  TvShow(
       {this.id,
       this.url,
       this.name,
@@ -33,7 +33,7 @@ class TVShow {
       this.summary,
       this.episodes});
 
-  factory TVShow.fromJson(Map<String, dynamic> json) {
+  factory TvShow.fromJson(Map<String, dynamic> json) {
     final hasEmbeddedEpisodes =
         (json['_embedded'] as Map)?.containsKey('episodes') ?? false;
     final hasMediumImage =
@@ -53,7 +53,7 @@ class TVShow {
     final imageOriginal =
         hasOriginalImage ? json['image']['original'] as String : null;
 
-    return TVShow(
+    return TvShow(
       id: json['id'] as int,
       url: json['url'] as String,
       name: json['name'] as String,

@@ -10,8 +10,6 @@ class RhomboidCard extends StatelessWidget {
   final String body;
   final int bodyMaxLines;
   final String imagePath;
-  final bool imageOnly;
-  final bool filterImage;
   final double topSpace;
   final double padding;
   final Widget customContent;
@@ -23,8 +21,6 @@ class RhomboidCard extends StatelessWidget {
     this.body,
     this.bodyMaxLines = 4,
     this.imagePath,
-    this.imageOnly = false,
-    this.filterImage = true,
     this.topSpace = 10,
     this.padding = 20,
     this.customContent,
@@ -35,10 +31,7 @@ class RhomboidCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipShadowPath(
       shadow: const Shadow(
-        blurRadius: 2.0,
-        color: Colors.grey,
-        offset: Offset(0, 4),
-      ),
+          blurRadius: 2.0, color: Colors.grey, offset: Offset(0, 4)),
       clipper: RhomboidClipper(),
       child: GestureDetector(
         onTap: onTap,
@@ -58,56 +51,54 @@ class RhomboidCard extends StatelessWidget {
     return Container(
         width: MediaQuery.of(context).size.width - 2 * padding,
         decoration: BoxDecoration(
+            color: Theme.of(context).primaryColor,
             image: DecorationImage(
                 image: NetworkImage(imagePath), fit: BoxFit.cover)),
         child: _buildContent(context));
   }
 
   Widget _buildContent(BuildContext context) {
+    final hasContent = title != null || body != null || customContent != null;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: [
         SizedBox(height: topSpace),
-        Column(
-          children: [
-            if (imageOnly != true)
-              ClipRect(
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 3, sigmaY: 3),
-                  child: Container(
-                    decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withOpacity(0.9)),
-                    padding: EdgeInsets.fromLTRB(
-                        padding, padding, padding, 2 * padding),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        if (title != null && title.isNotEmpty)
-                          Text(title,
-                              style: Theme.of(context).textTheme.headline3,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis),
-                        if (body != null && body.isNotEmpty)
-                          Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 2.0),
-                            child: Text(body,
-                                style: Theme.of(context)
-                                    .textTheme
-                                    .bodyText2
-                                    .copyWith(height: 1.4),
-                                maxLines: bodyMaxLines,
-                                overflow: TextOverflow.ellipsis),
-                          ),
-                        if (customContent != null) customContent,
-                      ],
-                    ),
-                  ),
+        if (hasContent)
+          ClipRect(
+            child: BackdropFilter(
+              filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor.withOpacity(0.80)),
+                padding:
+                    EdgeInsets.fromLTRB(padding, padding, padding, 2 * padding),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (title != null && title.isNotEmpty)
+                      Text(title,
+                          style: Theme.of(context).textTheme.headline3,
+                          maxLines: 2,
+                          overflow: TextOverflow.ellipsis),
+                    if (body != null && body.isNotEmpty)
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                        child: Text(body,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyText2
+                                .copyWith(height: 1.4),
+                            maxLines: bodyMaxLines,
+                            overflow: TextOverflow.ellipsis),
+                      ),
+                    if (customContent != null) customContent,
+                  ],
                 ),
               ),
-          ],
-        ),
+            ),
+          ),
       ],
     );
   }

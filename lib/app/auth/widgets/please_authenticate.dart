@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 
 class PleaseAuthenticate extends StatelessWidget {
-  final void Function() onTap;
+  final void Function() onAuthenticate;
+  final void Function() onHandleNoBiometrics;
+  final bool hasBiometrics;
 
-  const PleaseAuthenticate({Key key, this.onTap}) : super(key: key);
+  const PleaseAuthenticate({
+    Key key,
+    this.onAuthenticate,
+    this.onHandleNoBiometrics,
+    this.hasBiometrics,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final title = hasBiometrics
+        ? "When you're ready"
+        : "Your devices has no fingerprint sensor";
+
     return SizedBox.fromSize(
       size: MediaQuery.of(context).size,
       child: Container(
@@ -14,15 +25,22 @@ class PleaseAuthenticate extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text("When you're ready:",
+            Text(title,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline5),
             const SizedBox(height: 20),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.fingerprint),
-              label: const Text("please, click to authenticate."),
-              onPressed: onTap,
-            ),
+            if (hasBiometrics)
+              ElevatedButton.icon(
+                icon: const Icon(Icons.fingerprint),
+                label: const Text("please, click to authenticate."),
+                onPressed: onAuthenticate,
+              )
+            else
+              ElevatedButton.icon(
+                icon: const Icon(Icons.close),
+                label: const Text("continue without authentication"),
+                onPressed: onHandleNoBiometrics,
+              ),
           ],
         ),
       ),

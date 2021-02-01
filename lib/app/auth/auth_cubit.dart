@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -15,20 +16,30 @@ class AuthCubit extends Cubit<AuthState> {
 
   Future<void> init() async {
     final useAuth = await settingsDataSource.getUseAuth();
+    final hasBiometrics = await settingsDataSource.getHasBiometrics();
+
     if (useAuth == null) {
-      emit(state.copyWith(needsToSetUseAuth: true));
+      emit(state.copyWith(
+        needsToSetUseAuth: true,
+        needsToSetHasBiometrics: false,
+      ));
       return;
     }
 
     if (useAuth) {
-      emit(state.copyWith(needsToSetUseAuth: false, needsToAuthenticate: true));
+      emit(state.copyWith(
+        needsToSetUseAuth: false,
+        needsToSetHasBiometrics: hasBiometrics == null,
+        needsToAuthenticate: true,
+      ));
       return;
     }
 
     emit(state.copyWith(
         needsToSetUseAuth: false,
+        needsToSetHasBiometrics: false,
         needsToAuthenticate: false,
-        authenticated: true));
+        shouldNavigateToHome: true));
   }
 
   Future<void> setUseAuth(bool useAuth) async {
@@ -36,10 +47,9 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(
       usesAuth: useAuth,
       needsToSetUseAuth: false,
-      needsToAuthenticate: !state.authenticated && useAuth,
-      authenticated: useAuth ? state.authenticated : true,
+      needsToAuthenticate: !state.shouldNavigateToHome && useAuth,
+      shouldNavigateToHome: useAuth ? state.shouldNavigateToHome : true,
     ));
-    print(state.authenticated);
   }
 
   Future<void> authenticate() async {
@@ -51,14 +61,27 @@ class AuthCubit extends Cubit<AuthState> {
           stickyAuth: true);
       emit(state.copyWith(isAuthenticating: false));
     } on PlatformException catch (e) {
-      print(e);
+      await settingsDataSource.setHasBiometrics(false);
+      emit(state.copyWith(
+        needsToSetHasBiometrics: false,
+        hasBiometrics: false,
+      ));
+      debugPrint(e.message);
     }
-    //if (!mounted) return;
 
-    emit(state.copyWith(authenticated: authenticated));
+    emit(state.copyWith(shouldNavigateToHome: authenticated));
   }
 
   void cancelAuthentication() {
     auth.stopAuthentication();
+  }
+
+  Future<void> handleNoBiometrics() async {
+    await settingsDataSource.setUseAuth(false);
+    emit(state.copyWith(
+      usesAuth: false,
+      needsToAuthenticate: false,
+      shouldNavigateToHome: true,
+    ));
   }
 }

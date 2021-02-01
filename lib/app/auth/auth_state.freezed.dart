@@ -17,16 +17,20 @@ class _$AuthStateTearOff {
   _AuthState call(
       {@required @nullable bool usesAuth,
       @required bool needsToSetUseAuth,
+      @required bool hasBiometrics,
+      @required bool needsToSetHasBiometrics,
       @required bool needsToAuthenticate,
       @required bool isAuthenticating,
-      @required bool authenticated,
+      @required bool shouldNavigateToHome,
       @required @nullable String errorMessage}) {
     return _AuthState(
       usesAuth: usesAuth,
       needsToSetUseAuth: needsToSetUseAuth,
+      hasBiometrics: hasBiometrics,
+      needsToSetHasBiometrics: needsToSetHasBiometrics,
       needsToAuthenticate: needsToAuthenticate,
       isAuthenticating: isAuthenticating,
-      authenticated: authenticated,
+      shouldNavigateToHome: shouldNavigateToHome,
       errorMessage: errorMessage,
     );
   }
@@ -41,9 +45,11 @@ mixin _$AuthState {
   @nullable
   bool get usesAuth;
   bool get needsToSetUseAuth;
+  bool get hasBiometrics;
+  bool get needsToSetHasBiometrics;
   bool get needsToAuthenticate;
   bool get isAuthenticating;
-  bool get authenticated;
+  bool get shouldNavigateToHome;
   @nullable
   String get errorMessage;
 
@@ -58,9 +64,11 @@ abstract class $AuthStateCopyWith<$Res> {
   $Res call(
       {@nullable bool usesAuth,
       bool needsToSetUseAuth,
+      bool hasBiometrics,
+      bool needsToSetHasBiometrics,
       bool needsToAuthenticate,
       bool isAuthenticating,
-      bool authenticated,
+      bool shouldNavigateToHome,
       @nullable String errorMessage});
 }
 
@@ -76,9 +84,11 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
   $Res call({
     Object usesAuth = freezed,
     Object needsToSetUseAuth = freezed,
+    Object hasBiometrics = freezed,
+    Object needsToSetHasBiometrics = freezed,
     Object needsToAuthenticate = freezed,
     Object isAuthenticating = freezed,
-    Object authenticated = freezed,
+    Object shouldNavigateToHome = freezed,
     Object errorMessage = freezed,
   }) {
     return _then(_value.copyWith(
@@ -86,15 +96,21 @@ class _$AuthStateCopyWithImpl<$Res> implements $AuthStateCopyWith<$Res> {
       needsToSetUseAuth: needsToSetUseAuth == freezed
           ? _value.needsToSetUseAuth
           : needsToSetUseAuth as bool,
+      hasBiometrics: hasBiometrics == freezed
+          ? _value.hasBiometrics
+          : hasBiometrics as bool,
+      needsToSetHasBiometrics: needsToSetHasBiometrics == freezed
+          ? _value.needsToSetHasBiometrics
+          : needsToSetHasBiometrics as bool,
       needsToAuthenticate: needsToAuthenticate == freezed
           ? _value.needsToAuthenticate
           : needsToAuthenticate as bool,
       isAuthenticating: isAuthenticating == freezed
           ? _value.isAuthenticating
           : isAuthenticating as bool,
-      authenticated: authenticated == freezed
-          ? _value.authenticated
-          : authenticated as bool,
+      shouldNavigateToHome: shouldNavigateToHome == freezed
+          ? _value.shouldNavigateToHome
+          : shouldNavigateToHome as bool,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
           : errorMessage as String,
@@ -111,9 +127,11 @@ abstract class _$AuthStateCopyWith<$Res> implements $AuthStateCopyWith<$Res> {
   $Res call(
       {@nullable bool usesAuth,
       bool needsToSetUseAuth,
+      bool hasBiometrics,
+      bool needsToSetHasBiometrics,
       bool needsToAuthenticate,
       bool isAuthenticating,
-      bool authenticated,
+      bool shouldNavigateToHome,
       @nullable String errorMessage});
 }
 
@@ -130,9 +148,11 @@ class __$AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
   $Res call({
     Object usesAuth = freezed,
     Object needsToSetUseAuth = freezed,
+    Object hasBiometrics = freezed,
+    Object needsToSetHasBiometrics = freezed,
     Object needsToAuthenticate = freezed,
     Object isAuthenticating = freezed,
-    Object authenticated = freezed,
+    Object shouldNavigateToHome = freezed,
     Object errorMessage = freezed,
   }) {
     return _then(_AuthState(
@@ -140,15 +160,21 @@ class __$AuthStateCopyWithImpl<$Res> extends _$AuthStateCopyWithImpl<$Res>
       needsToSetUseAuth: needsToSetUseAuth == freezed
           ? _value.needsToSetUseAuth
           : needsToSetUseAuth as bool,
+      hasBiometrics: hasBiometrics == freezed
+          ? _value.hasBiometrics
+          : hasBiometrics as bool,
+      needsToSetHasBiometrics: needsToSetHasBiometrics == freezed
+          ? _value.needsToSetHasBiometrics
+          : needsToSetHasBiometrics as bool,
       needsToAuthenticate: needsToAuthenticate == freezed
           ? _value.needsToAuthenticate
           : needsToAuthenticate as bool,
       isAuthenticating: isAuthenticating == freezed
           ? _value.isAuthenticating
           : isAuthenticating as bool,
-      authenticated: authenticated == freezed
-          ? _value.authenticated
-          : authenticated as bool,
+      shouldNavigateToHome: shouldNavigateToHome == freezed
+          ? _value.shouldNavigateToHome
+          : shouldNavigateToHome as bool,
       errorMessage: errorMessage == freezed
           ? _value.errorMessage
           : errorMessage as String,
@@ -161,14 +187,18 @@ class _$_AuthState implements _AuthState {
   const _$_AuthState(
       {@required @nullable this.usesAuth,
       @required this.needsToSetUseAuth,
+      @required this.hasBiometrics,
+      @required this.needsToSetHasBiometrics,
       @required this.needsToAuthenticate,
       @required this.isAuthenticating,
-      @required this.authenticated,
+      @required this.shouldNavigateToHome,
       @required @nullable this.errorMessage})
       : assert(needsToSetUseAuth != null),
+        assert(hasBiometrics != null),
+        assert(needsToSetHasBiometrics != null),
         assert(needsToAuthenticate != null),
         assert(isAuthenticating != null),
-        assert(authenticated != null);
+        assert(shouldNavigateToHome != null);
 
   @override
   @nullable
@@ -176,18 +206,22 @@ class _$_AuthState implements _AuthState {
   @override
   final bool needsToSetUseAuth;
   @override
+  final bool hasBiometrics;
+  @override
+  final bool needsToSetHasBiometrics;
+  @override
   final bool needsToAuthenticate;
   @override
   final bool isAuthenticating;
   @override
-  final bool authenticated;
+  final bool shouldNavigateToHome;
   @override
   @nullable
   final String errorMessage;
 
   @override
   String toString() {
-    return 'AuthState(usesAuth: $usesAuth, needsToSetUseAuth: $needsToSetUseAuth, needsToAuthenticate: $needsToAuthenticate, isAuthenticating: $isAuthenticating, authenticated: $authenticated, errorMessage: $errorMessage)';
+    return 'AuthState(usesAuth: $usesAuth, needsToSetUseAuth: $needsToSetUseAuth, hasBiometrics: $hasBiometrics, needsToSetHasBiometrics: $needsToSetHasBiometrics, needsToAuthenticate: $needsToAuthenticate, isAuthenticating: $isAuthenticating, shouldNavigateToHome: $shouldNavigateToHome, errorMessage: $errorMessage)';
   }
 
   @override
@@ -200,15 +234,22 @@ class _$_AuthState implements _AuthState {
             (identical(other.needsToSetUseAuth, needsToSetUseAuth) ||
                 const DeepCollectionEquality()
                     .equals(other.needsToSetUseAuth, needsToSetUseAuth)) &&
+            (identical(other.hasBiometrics, hasBiometrics) ||
+                const DeepCollectionEquality()
+                    .equals(other.hasBiometrics, hasBiometrics)) &&
+            (identical(
+                    other.needsToSetHasBiometrics, needsToSetHasBiometrics) ||
+                const DeepCollectionEquality().equals(
+                    other.needsToSetHasBiometrics, needsToSetHasBiometrics)) &&
             (identical(other.needsToAuthenticate, needsToAuthenticate) ||
                 const DeepCollectionEquality()
                     .equals(other.needsToAuthenticate, needsToAuthenticate)) &&
             (identical(other.isAuthenticating, isAuthenticating) ||
                 const DeepCollectionEquality()
                     .equals(other.isAuthenticating, isAuthenticating)) &&
-            (identical(other.authenticated, authenticated) ||
-                const DeepCollectionEquality()
-                    .equals(other.authenticated, authenticated)) &&
+            (identical(other.shouldNavigateToHome, shouldNavigateToHome) ||
+                const DeepCollectionEquality().equals(
+                    other.shouldNavigateToHome, shouldNavigateToHome)) &&
             (identical(other.errorMessage, errorMessage) ||
                 const DeepCollectionEquality()
                     .equals(other.errorMessage, errorMessage)));
@@ -219,9 +260,11 @@ class _$_AuthState implements _AuthState {
       runtimeType.hashCode ^
       const DeepCollectionEquality().hash(usesAuth) ^
       const DeepCollectionEquality().hash(needsToSetUseAuth) ^
+      const DeepCollectionEquality().hash(hasBiometrics) ^
+      const DeepCollectionEquality().hash(needsToSetHasBiometrics) ^
       const DeepCollectionEquality().hash(needsToAuthenticate) ^
       const DeepCollectionEquality().hash(isAuthenticating) ^
-      const DeepCollectionEquality().hash(authenticated) ^
+      const DeepCollectionEquality().hash(shouldNavigateToHome) ^
       const DeepCollectionEquality().hash(errorMessage);
 
   @JsonKey(ignore: true)
@@ -234,9 +277,11 @@ abstract class _AuthState implements AuthState {
   const factory _AuthState(
       {@required @nullable bool usesAuth,
       @required bool needsToSetUseAuth,
+      @required bool hasBiometrics,
+      @required bool needsToSetHasBiometrics,
       @required bool needsToAuthenticate,
       @required bool isAuthenticating,
-      @required bool authenticated,
+      @required bool shouldNavigateToHome,
       @required @nullable String errorMessage}) = _$_AuthState;
 
   @override
@@ -245,11 +290,15 @@ abstract class _AuthState implements AuthState {
   @override
   bool get needsToSetUseAuth;
   @override
+  bool get hasBiometrics;
+  @override
+  bool get needsToSetHasBiometrics;
+  @override
   bool get needsToAuthenticate;
   @override
   bool get isAuthenticating;
   @override
-  bool get authenticated;
+  bool get shouldNavigateToHome;
   @override
   @nullable
   String get errorMessage;

@@ -24,9 +24,9 @@ class AuthPage extends CubitPage<AuthCubit> {
         body: SingleChildScrollView(
       child: BlocConsumer<AuthCubit, AuthState>(
         listenWhen: (previous, current) =>
-            previous.authenticated != current.authenticated,
+            previous.shouldNavigateToHome != current.shouldNavigateToHome,
         listener: (context, state) {
-          if (state.authenticated) {
+          if (state.shouldNavigateToHome) {
             ExtendedNavigator.root.replace(Routes.homePage);
           }
         },
@@ -38,10 +38,14 @@ class AuthPage extends CubitPage<AuthCubit> {
 
           if (state.needsToAuthenticate) {
             return PleaseAuthenticate(
-                onTap: context.read<AuthCubit>().authenticate);
+              onAuthenticate: context.read<AuthCubit>().authenticate,
+              onHandleNoBiometrics:
+                  context.read<AuthCubit>().handleNoBiometrics,
+              hasBiometrics: state.hasBiometrics,
+            );
           }
 
-          return const TvStaticWarning(message: "Oops, something went wrong");
+          return Container();
         },
       ),
     ));

@@ -20,8 +20,6 @@ A Flutter project consuming the TVMaze API.
     </p>
 </div>
 
-# Download
-
 # How to build
 1. Make sure your environment is properly set up:
 ```

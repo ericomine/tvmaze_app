@@ -96,4 +96,4 @@ Usually, in my projects, I tend to focus my testing efforts on the use cases, wh
 I have only provided unit tests for deserialization of the JSON objects received from the API. These could be fairly improved by the use of fixtures and a separate test suite which calls the API (in my test suite I directly call the API).
 
 # Credits
-TV Static Video by Engin Akyurt from (Pexels[https://www.pexels.com/video/an-old-portable-television-3290546/])
+TV Static Video by Engin Akyurt from [Pexels](https://www.pexels.com/video/an-old-portable-television-3290546/)

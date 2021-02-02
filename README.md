@@ -75,15 +75,15 @@ In the "ideally clean" organization, each part of the project has very specific 
 Because this is a small project, I think that it'd be overengineering to start with all the boilerplate laid out.
 
 # On UI/UX
-I have tried to create a simple and comfortable experience for the user of the app, but yet with a distinguishable look.
+I have tried to create a simple and comfortable experience for the user of the app, but yet with a distinguishable look that comes from the skewed cards which "fit" into each other to provide a sense of flow.
 
-For this, the home page only contains a list of the retrieved TV shows and the search bar (as in google.com). A modal bottom sheet, which is out of sight when not necessary and contributes to the cleanliness of the home page, allows the user to go the favorites page or reset the fingerprint settings. In case I had implemented the people search, I would have put some control in this modal bottom sheet to switch between tv show/person search.
+The home page only contains a list of the retrieved TV shows and the search bar, lightly taking inspiration from google.com. A modal bottom sheet, which is out of sight when not necessary and contributes to the cleanliness of the home page, allows the user to go the favorites page or reset the fingerprint settings. In case I had implemented the people search, I would have put some control in this modal bottom sheet to switch between tv show/person search.
 
 I have also implemented deboucing in the search bar, so as to improve the experience of the user when typing a new search query. The search bar also gets a "keyboard down" icon button for iOS users who can't close the keyboard with the back button as in Android.
 
 Regarding the authentication by fingerprint feature, I've also tried to implement it the most "out of sight" way, so that the if the user refuses to use fingerprint once, he'll have to go to the menu and reset it by him/herself.
 
-The details page could be fairly improved. They are a bit dull because most of their content is text and there is little graphic material to break the flow.
+The details page could be fairly improved. They are a bit dull because most of their content is text and there is little graphic material to break the flow. These are also likely the classes which would benefit the most from some refactoring as of now.
 
 # On native platform specificities
 

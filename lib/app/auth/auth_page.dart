@@ -35,6 +35,8 @@ class AuthPage extends CubitPage<AuthCubit> {
           if (state.needsToAuthenticate) {
             return PleaseAuthenticate(
               onAuthenticate: context.read<AuthCubit>().authenticate,
+              onWillNotAuthenticate:
+                  context.read<AuthCubit>().willNotAuthenticate,
               onHandleNoBiometrics:
                   context.read<AuthCubit>().handleNoBiometrics,
               hasBiometrics: state.hasBiometrics,

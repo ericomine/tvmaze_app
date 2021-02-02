@@ -1,13 +1,16 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 
 class PleaseAuthenticate extends StatelessWidget {
   final void Function() onAuthenticate;
+  final void Function() onWillNotAuthenticate;
   final void Function() onHandleNoBiometrics;
   final bool hasBiometrics;
 
   const PleaseAuthenticate({
     Key key,
     this.onAuthenticate,
+    this.onWillNotAuthenticate,
     this.onHandleNoBiometrics,
     this.hasBiometrics,
   }) : super(key: key);
@@ -29,13 +32,17 @@ class PleaseAuthenticate extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headline5),
             const SizedBox(height: 20),
-            if (hasBiometrics)
+            if (hasBiometrics) ...[
               ElevatedButton.icon(
                 icon: const Icon(Icons.fingerprint),
-                label: const Text("please, click to authenticate."),
+                label: const Text("please, click to authenticate"),
                 onPressed: onAuthenticate,
-              )
-            else
+              ),
+              FlatButton.icon(
+                  icon: const Icon(Icons.close),
+                  label: const Text("or cancel."),
+                  onPressed: onWillNotAuthenticate),
+            ] else
               ElevatedButton.icon(
                 icon: const Icon(Icons.close),
                 label: const Text("continue without authentication"),

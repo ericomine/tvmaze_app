@@ -90,6 +90,10 @@ class AuthCubit extends Cubit<AuthState> {
     auth.stopAuthentication();
   }
 
+  Future<void> willNotAuthenticate() async {
+    emit(AuthState.initial());
+  }
+
   Future<void> handleNoBiometrics() async {
     final result = await settingsRepository.setUseAuth(false);
     if (result is Error) {
